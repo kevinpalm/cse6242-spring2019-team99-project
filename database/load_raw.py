@@ -6,7 +6,7 @@ from sys import argv
 
 def main():
 	"""
-	One time helper script to download the FreeCodeCamp chat data and store it
+	One time helper script use the pre-downloaded FreeCodeCamp chat data and store it
 	into a sqlite database
 	"""
 
