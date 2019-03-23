@@ -1,0 +1,56 @@
+body {
+    background-color: white;
+    color: black;
+}
+
+.flexContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.uiContainer {
+    padding: 15px;
+    border-style: solid;
+    border-color: black;
+    border-size: 2px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	align-content: space-between;
+	align-items: center;
+}
+
+.optionsContainer {
+    padding: 10px;
+
+}
+
+.optionButton {
+    margin: 10px;
+    border-style: solid;
+    border-color: black;
+    border-size: 3px;
+    background-color: #999999;
+    border-radius: 8px;
+}
+
+.slider {
+    -webkit-appearance: none;
+    appearance: none;
+    background: #d3d3d3;
+    height: 5px;
+}
+
+.checkBoxLabel {
+	font-size: 12px;
+}
+
+.titleContainer {
+	display: flex;
+	justify-content: center;
+	align-content: flex-end;
+}
+
+.title {
+	
+}
