@@ -6,7 +6,7 @@ import { Scale } from "./View/Graph/scale.js";
 import { Axis } from "./View/Graph/axis.js";
 import { UI } from "./View/UI/ui.js";
 
-class MainView {
+class MVCView {
 	constructor() {
 		this.layout = new Layout();
 		this.canvas = new Canvas(this.layout);
@@ -18,8 +18,4 @@ class MainView {
 	}
 }
 
-function testView() {
-	let mainView = new MainView();
-}
-
-testView();
+export { MVCView };

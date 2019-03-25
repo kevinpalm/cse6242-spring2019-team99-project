@@ -18,7 +18,7 @@ class Layout {
 }
 
 class Border {
-	constructor(top = 50, right = 35, bottom = 50, left = 35) {
+	constructor(top = 75, right = 75, bottom = 75, left = 75) {
 		this.top = top;
 		this.right = right;
 		this.bottom = bottom;

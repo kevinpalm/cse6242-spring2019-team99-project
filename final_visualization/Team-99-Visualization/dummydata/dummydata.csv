@@ -1,0 +1,8 @@
+message_id,chat_text,user_id,sent_date,topic,words_in_topic
+1,"What  is Hello World?",13,12/24/16,"Beginner","Hello,World"
+2,"I'm gonna make a sandwich.",13,12/24/16,"Food","Sandwich"
+3,"How do I select all columns from a SQL table?",13,12/24/16,"Database","SQL, Column, Table"
+4,"I passed the turing test.",13,12/24/16,"CS","Turing"
+5,"I know everything about Elon Musk.",13,12/24/16,"Perfume","Musk"
+6,"Which is better, Ubuntu or Linux?",13,12/24/16,"OS","Ubuntu,Linux"
+7,"if myExp = True not working, error",13,12/24/16,"Debug","Error, Working"
