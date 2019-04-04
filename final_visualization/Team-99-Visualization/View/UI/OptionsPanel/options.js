@@ -6,7 +6,7 @@ class Options {
 	}
 	
 	createOptions() {
-		let buttonWidth = (this.layout.ui_width / 3) - this.layout.padding.right;
+		let buttonWidth = (this.layout.uiWidth / 3) - this.layout.padding.right;
 		let options = this.uiContainer.append("div")
 			.attr("class", "optionsContainer")
 			.attr("align", "center");

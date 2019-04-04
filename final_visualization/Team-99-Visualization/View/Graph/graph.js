@@ -6,8 +6,8 @@ class Graph {
 		.append('rect')
 			.attr('x', 0)
 			.attr('y', 0)
-			.attr('width', layout.graph_width)
-			.attr('height', layout.height)
+			.attr('width', layout.graphWidth)
+			.attr('height', layout.graphHeight)
 			.attr('fill', 'blue');
 	}
 }

@@ -1,24 +1,17 @@
 class Canvas {
-	constructor(layout) {
-		this.layout = layout;
-		this.container = d3.select("body").append("div");
-		this.titleContainer = this.container.append("div")
-			.attr("class", "titleContainer");
-		this.bodyContainer = this.container.append("div")
-			.attr("class", "flexContainer")
-			.attr("justify-content", "center");
-		this.graphContainer = this.bodyContainer.append("div");
-		this.uiContainer = this.bodyContainer.append("div");
+	constructor(dims, container) {
+		this.dims = dims;
+		this.container = container;
 		this.graphSvg = this.createGraph();
 	}
 	
 	createGraph() {
-		let graphSvg = this.graphContainer.append("svg")
-			.attr("width", this.layout.graph_width)
-			.attr("height", this.layout.innerHeight)
+		let graphSvg = this.container.append("svg")
+			.attr("width", this.dims.canvasWidth)
+			.attr("height", this.dims.canvasHeight)
 			.attr("class", "g")
 		.append("g")
-			.attr("transform", "translate(" + this.layout.margin.left + ", " + this.layout.margin.top + ")");
+			.attr("transform", "translate(" + this.dims.margin.left + ", " + this.dims.margin.top + ")");
 		return graphSvg;
 	}
 	
