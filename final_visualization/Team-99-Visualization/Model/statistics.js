@@ -1,4 +1,5 @@
 class Statistics {
+    // MG stands for message growth, UG for user growth
     constructor(data) {
         this.data = data[0];
         this.cumulativeUsers = this.data["cumulative_users"];
@@ -12,6 +13,9 @@ class Statistics {
         this.maxQuarterUG= this.data["max_u_quarter"];
         this.maxQuarterMG = this.data["max_m_quarter"];
         this.maxWeekMGCm = this.data["max_m_week_cm"];
+        this.maxFortnightMGCm = this.data["max_m_fortnight_cm"];
+        this.maxMonthMGCm = this.data["max_m_month_cm"];
+        this.maxQuarterMGCm = this.data["max_m_quarter_cm"];
     }
 }
 

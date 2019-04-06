@@ -39,6 +39,7 @@ body {
     border-color: black;
     border-width: 3px;
     background-color: #999999;
+    color: black;
     flex-grow: 1;
 }
 

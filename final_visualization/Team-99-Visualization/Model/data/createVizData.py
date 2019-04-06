@@ -17,42 +17,36 @@ data.index = dates
 data = data.sort_index()
 data.index = data.index.rename("id")
 
-dfs_ts = []
-dfs_cm = []
+dfs_ts = [] # all timestep dataframes
+dfs_cm = [] # all cumulative dataframes
 
 # Resample, aggregate, rename columns, concatenate dataframes and finally write to file
 def aggregate_and_write(resample_size, title):
     dataframes_ts = []
     dataframes_cm = []
-    dfs_ts_current = []     # per timestep
-    dfs_cm_current = []    # cumulative
     for key in df_dict.keys():
         message_user_counts = df_dict[key].resample(resample_size).agg({"from_userid": "nunique", "sent_at": "count"})
         message_user_counts = message_user_counts.rename(index=str, columns={"from_userid": "users_" + str(int(key)),
                                                                              "sent_at": "messages_" + str(int(key))})
         message_user_counts_cm = message_user_counts.agg({"users_" + str(int(key)): "cumsum",
                                                           "messages_" + str(int(key)): "cumsum"})
+        message_user_counts_cm = message_user_counts_cm.rename(index=str, columns={"users_" + str(int(key)):"users_" + str(int(key)) + "_cm",
+                                                                                   "messages_" + str(int(key)): "messages_" + str(int(key)) + "_cm"})
         dataframes_ts.append(message_user_counts)
         dataframes_cm.append(message_user_counts_cm)
-        dfs_ts_current.append(message_user_counts)
-        dfs_cm_current.append(message_user_counts_cm)
 
-    dfs_ts.append(dfs_ts_current)
-    dfs_cm.append(dfs_cm_current)
+    dfs_ts.append(dataframes_ts)
+    dfs_cm.append(dataframes_cm)
     total_counts = data.resample(resample_size).agg({"from_userid": "nunique", "sent_at": "count"})
     total_counts = total_counts.rename(index=str, columns={"from_userid": "users_total", "sent_at": "messages_total"})
 
-    result_ts = total_counts
-    result_cm = total_counts
+    result = total_counts
 
-    for df in dataframes_ts:
-        result_ts = pd.concat([result_ts, df], axis=1, sort=False)
+    for i in range(len(dataframes_ts)):
+        result = pd.concat([result, dataframes_ts[i]], axis=1, sort=False)
+        result = pd.concat([result, dataframes_cm[i]], axis=1, sort=False)
 
-    for df in dataframes_cm:
-        result_cm = pd.concat([result_cm, df], axis=1, sort=False)
-
-    result_cm.to_csv(title + "_cm.txt", sep="\t")
-    result_ts.to_csv(title + ".txt", sep="\t")
+    result.to_csv(title + ".txt", sep="\t")
 
 
 aggregate_and_write("W", "week")

@@ -17,12 +17,8 @@ class Data {
 		this.fortnightData = promisedData[1];
 		this.monthData = promisedData[2];
 		this.quarterData = promisedData[3];
-		this.weekDataCm = promisedData[4];
-		this.fortnightData = promisedData[5];
-		this.monthData = promisedData[6];
-		this.quarterData = promisedData[7];
-		this.statsData = promisedData[8];
-		this.coreData = promisedData[9];
+		this.statsData = promisedData[4];
+		this.coreData = promisedData[5];
 	}
 }
 
