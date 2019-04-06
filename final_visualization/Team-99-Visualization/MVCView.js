@@ -1,7 +1,7 @@
 import { LayoutDimensions } from "./View/layoutDimensions.js";
 import { Layout } from "./View/layout.js"
 import { Canvas } from "./View/canvas.js";
-import { Graph } from "./View/Graph/graph.js";
+import { PopularityGraph } from "./View/Graph/timePopularityGraph.js";
 import { Scale } from "./View/Graph/scale.js";
 import { Axis } from "./View/Graph/axis.js";
 import { UI } from "./View/UI/ui.js";
@@ -9,13 +9,14 @@ import { Header } from "./View/header.js"
 import { Footer } from "./View/Footer/footer.js";
 
 class MVCView {
-	constructor() {
+	constructor(model) {
+		this.model = model;
 		this.dims = new LayoutDimensions();
 		this.layout = new Layout(this.dims);
 		this.canvas = new Canvas(this.dims, this.layout.graphContainer);
-		this.graph = new Graph(this.dims, this.canvas.graphSvg);
+		this.scale = new Scale(this.dims, this.model.dataset.stats);
+		this.graph = new PopularityGraph(this.dims, this.canvas.graphSvg, this.scale, this.model.dataset);
 		this.ui = new UI(this.dims, this.layout.uiContainer);
-		this.scale = new Scale(this.dims);
 		this.axis = new Axis(this.scale, this.dims, this.canvas.graphSvg);
 		this.header = null;
 		this.footer = null;

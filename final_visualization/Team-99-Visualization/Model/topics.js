@@ -1,12 +1,13 @@
 class Topics {
 		constructor(dataset) {
-			this.dataset = dataset[0];
-			this.topicNames = this.dataset.map(function (d) { return d.topic; });
-			this.topicMap = this.dataset.reduce(function(result, d) { 
+			this.dataset = dataset;
+			this.topicNames = this.dataset.map(function (d) {
+				 return d.Chat_Topic; });
+			this.topicDictionary = this.dataset.reduce(function(result, d) { 
 			if(result["message_id"]) {
 				result = {};
 			}
-				result[d.topic] = d.words_in_topic;
+				result[d.Chat_Topic] = d.Keywords;
 				return result;
 			});
 		}
