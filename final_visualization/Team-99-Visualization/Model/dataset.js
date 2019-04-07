@@ -19,6 +19,7 @@ class Data {
 		this.quarterData = promisedData[3];
 		this.statsData = promisedData[4];
 		this.coreData = promisedData[5];
+		this.topicData = promisedData[6];
 	}
 }
 

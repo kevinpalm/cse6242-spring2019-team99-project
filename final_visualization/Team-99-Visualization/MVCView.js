@@ -18,7 +18,7 @@ class MVCView {
 		this.canvas = new Canvas(this.dims, this.layout.graphContainer);
 		this.scale = new Scale(this.dims, this.model.dataset.stats);
 		this.graph = new PopularityGraph(this.dims, this.canvas.graphSvg, this.scale, this.model.dataset, this.mediator);
-		this.ui = new UI(this.dims, this.layout.uiContainer);
+		this.ui = new UI(this.dims, this.layout.uiContainer, this.model.dataset.data.topicData, this.mediator);
 		this.axis = new Axis(this.scale, this.dims, this.canvas.graphSvg, this.mediator);
 		this.header = null;
 		this.footer = null;

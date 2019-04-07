@@ -129,6 +129,10 @@ body {
     border-width: 2px;
 }
 
+.first { order: 1; }
+.second { order: 2; }
+.third { order: 3; }
+
 .topicWords {
     flex-grow: 2;
     border-style: solid;

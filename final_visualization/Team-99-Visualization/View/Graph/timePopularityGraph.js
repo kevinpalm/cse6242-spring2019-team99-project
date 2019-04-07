@@ -10,8 +10,7 @@ class PopularityGraph extends Colleague {
 		this.dataset = data;
 		this.maxUG = 0;
 		this.maxWG = 0;
-		this.requestWeeks();
-		this.requestMonths();
+		this.requestFortnights();
 	}
 
 	requestWeeks() {
@@ -38,12 +37,20 @@ class PopularityGraph extends Colleague {
 		this.draw(this.dataset.data.quarterData, this.scale.graphXQuarter);
 	}
 
+	requestFunc(i) {
+		let topicRequest = new TopicRequest(i, this.mediator);
+		let requestFunc = topicRequest.requestTopicDetail
+		requestFunc = requestFunc.bind(topicRequest);
+		return requestFunc;
+	}
+
 	draw(data, scaleX) {
 		let scaleY = this.scale.graphY;
 		let maxMG = this.maxMG;
 		let maxUG = this.maxUG;
 		this.svg.selectAll("g").remove();
 		for(let i = 0; i < 15; i++){
+			let requestTopicFunc = this.requestFunc(i);
 			this.svg.selectAll(".dataPoint")
 			.data(data)
 			.enter()
@@ -65,8 +72,31 @@ class PopularityGraph extends Colleague {
 				let g = ((i + 1) % 5) * 50;
 				let b = ((i + 3) % 5) * 50;
 				return "rgb(" + r + ", " + g + ", " + b + ")";
-			});
+			})
+			.attr("fill-opacity", "0.6")
+			.on("mouseover", onMouseOver)
+			.on("mouseout", onMouseOut)
+			.on("click", requestTopicFunc);
 		}
+	}
+}
+
+function onMouseOver(d, i) {
+	d3.select(this).attr("stroke", "black").attr("stroke-width", "2px");
+}
+
+function onMouseOut(d, i) {
+	d3.select(this).attr("stroke", "black").attr("stroke-width", "0px");
+}
+
+class TopicRequest {
+	constructor(i, mediator) {
+		this.topic = i;
+		this.mediator = mediator;
+	}
+
+	requestTopicDetail() {
+		this.mediator.requestAction("topTopics", "setTopic", this.topic)
 	}
 }
 

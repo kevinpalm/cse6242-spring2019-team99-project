@@ -5,14 +5,16 @@ class PromiseManager {
 		let month = d3.tsv("./Model/data/month.txt");
 		let quarter = d3.tsv("./Model/data/quarter.txt");
 		let stats = d3.tsv("./Model/data/stats.txt");
-		let dataset = d3.tsv("./Model/data/final_dominant_topic_text_df.txt")
+		let dataset = d3.tsv("./Model/data/final_dominant_topic_text_df.txt");
+		let topics = d3.csv("./Model/data/most_representative_chat_for_each_topic.txt");
 		Promise.all([
 			week,
 			fortnight,
 			month,
 			quarter,
 			stats,
-			dataset
+			dataset,
+			topics
 		]).then(function (data) { 
 			myFunc(data);
 		});
