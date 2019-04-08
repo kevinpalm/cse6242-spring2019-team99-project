@@ -2,6 +2,7 @@ import pandas as pd
 import sqlite3
 from os import listdir
 from sys import argv
+from preprocess_text import build_lemma_table
 
 
 def main():
@@ -52,6 +53,9 @@ def main():
 		# create an index
 		conn.execute('create index chats_index on chats (chat_id);')
 		conn.commit()
+
+		# build lemmas table
+		build_lemma_table(conn)
 
 		print('...database loaded!')
 

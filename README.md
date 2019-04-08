@@ -21,3 +21,7 @@
 * **from_username**: Unique username of the user
 * **message_id**: Unique message id of the message
 * **text**: The raw text of the message
+
+### lemmas
+* **chat_id**: unique index
+* **lemma**: lemmatized text with stop words removed
