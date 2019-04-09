@@ -25,3 +25,8 @@
 ### lemmas
 * **chat_id**: unique index
 * **lemma**: lemmatized text with stop words removed
+
+### words
+* **word_id**: unique index
+* **word**: the word text
+* **freq**: the frequency that the word appears in our dataset
