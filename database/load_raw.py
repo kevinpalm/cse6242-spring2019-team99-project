@@ -3,6 +3,7 @@ import sqlite3
 from os import listdir
 from sys import argv
 from preprocess_text import build_lemma_table
+from build_vocab import build_vocab
 
 
 def main():
@@ -56,6 +57,9 @@ def main():
 
 		# build lemmas table
 		build_lemma_table(conn)
+
+		# build vocabulary
+		build_vocab(conn)
 
 		print('...database loaded!')
 
