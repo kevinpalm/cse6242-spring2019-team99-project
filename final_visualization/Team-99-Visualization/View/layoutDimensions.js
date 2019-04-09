@@ -24,8 +24,19 @@ class LayoutDimensions {
 		this.graphWidth = this.canvasWidth - this.padding.right - this.padding.left;
 		this.graphHeight = this.canvasHeight - this.padding.bottom - this.padding.top - this.margin.bottom - this.margin.top;
 
-		this.uiHeight = this.graphHeight;
+		this.uiHeight = this.graphHeight + this.padding.top + this.padding.bottom;
 		this.uiWidth  = this.width - this.canvasWidth - this.padding.right - this.padding.left;
+
+		this.detailPadding = 25;
+
+		this.detailGraphHeight = 2 * this.uiHeight / 3.0;
+		this.detailGraphWidth = this.uiWidth;
+
+		this.detailLeftX = this.padding.left;
+		this.detailRightX = this.detailGraphWidth - this.padding.right;
+
+		this.detailBottomY = this.detailGraphHeight - this.padding.bottom + this.detailPadding;
+		this.detailBottomWidth = this.detailGraphWidth - 2 * this.padding.left;
 
 		let remainingHeight = this.outerHeight - this.height;
 		this.headerHeight = remainingHeight * 0.38;
@@ -35,8 +46,8 @@ class LayoutDimensions {
 		this.timeScaleWidth = this.timeScaleContainerWidth - this.padding.right - this.padding.left;
 		this.timeScaleHeight = this.headerHeight / 3;
 
-		this.timeButtonWidth = this.timeScaleContainerWidth / 8;
-		this.playButtonWidth = this.timeScaleContainerWidth / 6;
+		this.timeButtonWidth = this.timeScaleContainerWidth / 9;
+		this.playButtonWidth = this.timeScaleContainerWidth / 9;
 	}
 }
 

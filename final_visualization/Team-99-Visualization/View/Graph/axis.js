@@ -69,7 +69,7 @@ class Axis extends Colleague {
 	}
 
 	createYLabel() {
-		let xTranslate = - (this.layout.canvasWidth - this.layout.graphWidth) / 4;
+		let xTranslate = - (this.layout.canvasWidth - this.layout.graphWidth) / 3;
 		let yTranslate = this.layout.graphHeight / 2;
 		let axisLabel = this.svg.append("text")
 			.attr("transform", "rotate(-90)")

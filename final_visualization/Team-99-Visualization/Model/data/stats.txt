@@ -1,2 +1,2 @@
 	cumulative_users	cumulative_messages	max_u_week	max_m_week	max_u_fortnight	max_m_fortnight	max_u_month	max_m_month	max_u_quarter	max_m_quarter	max_u_week_cm	max_m_week_cm	max_u_fortnight_cm	max_m_fortnight_cm	max_u_month_cm	max_m_month_cm	max_u_quarter_cm	max_m_quarter_cm
-0	1625	89297	90	754	132	1431	233	2900	453	5707	2699	16646	2158	16646	1737	16646	1352	16646
+0	1625	89297	90	754	132	1431	233	2900	453	5707	1033.0	16647	1033.0	16647	1033.0	16647	1033.0	16647

@@ -3,7 +3,6 @@ import { Colleague } from "../colleague.js";
 class TimeOptions extends Colleague {
     constructor(dims, container, mediator) {
         super(mediator);
-        console.log(this.mediator);
         this.register("timeOptions");
         this.dims = dims;
         this.container = container;
@@ -23,11 +22,11 @@ class TimeOptions extends Colleague {
     createButton(optionsPanel, name, func) {
         let buttonWidth = this.dims.timeButtonWidth;
         func = func.bind(this);
-        let button = optionsPanel.append("input")
+        let button = optionsPanel.append("button")
             .attr("type", "button")
             .style("width", buttonWidth + "px")
-            .attr("class", "timeButton")
-            .attr("value", name)
+            .attr("class", "myButton")
+            .html(name)
             .on("click", func);
         return button;
     }
@@ -35,21 +34,25 @@ class TimeOptions extends Colleague {
     week() {
         this.mediator.requestAction("graph", "requestWeeks");
         this.mediator.requestAction("axis", "requestWeeks");
+        this.mediator.requestAction("dataset", "setBundle", 0);
     }
 
     fortnight() {
         this.mediator.requestAction("graph", "requestFortnights");
         this.mediator.requestAction("axis", "requestFortnights");
+        this.mediator.requestAction("dataset", "setBundle", 1);
     }
 
     month() {
         this.mediator.requestAction("graph", "requestMonths");
         this.mediator.requestAction("axis", "requestMonths");
+        this.mediator.requestAction("dataset", "setBundle", 2);
     }
 
     quarter() {
         this.mediator.requestAction("graph", "requestQuarters");
         this.mediator.requestAction("axis", "requestQuarters");
+        this.mediator.requestAction("dataset", "setBundle", 3);
     }
 }
 

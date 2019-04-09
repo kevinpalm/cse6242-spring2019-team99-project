@@ -20,7 +20,7 @@ class PlayOptions {
             .attr("type", "button")
             .style("width", buttonWidth + "px")
             .attr("value", name)
-            .attr("class", "timeButton");
+            .attr("class", "myButton");
         return button;
     }
 }

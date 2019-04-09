@@ -51,6 +51,7 @@ class PopularityGraph extends Colleague {
 		this.svg.selectAll("g").remove();
 		for(let i = 0; i < 15; i++){
 			let requestTopicFunc = this.requestFunc(i);
+			let mediator = this.mediator;
 			this.svg.selectAll(".dataPoint")
 			.data(data)
 			.enter()
@@ -68,12 +69,10 @@ class PopularityGraph extends Colleague {
 				return 20 * (h / maxUG);
 			})
 			.attr("fill", function() { 
-				let r = (i % 5) * 50;
-				let g = ((i + 1) % 5) * 50;
-				let b = ((i + 3) % 5) * 50;
-				return "rgb(" + r + ", " + g + ", " + b + ")";
+				let hsl = mediator.requestAction("colors", "getColor", i);
+				return hsl;
 			})
-			.attr("fill-opacity", "0.6")
+			.attr("fill-opacity", "0.75")
 			.on("mouseover", onMouseOver)
 			.on("mouseout", onMouseOut)
 			.on("click", requestTopicFunc);
@@ -97,6 +96,7 @@ class TopicRequest {
 
 	requestTopicDetail() {
 		this.mediator.requestAction("topTopics", "setTopic", this.topic)
+		this.mediator.requestAction("detailGraph", "requestTopic", this.topic)
 	}
 }
 

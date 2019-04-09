@@ -1,15 +1,59 @@
 import { Topics } from "./topics.js";
 import { Dictionary } from "./dictionary.js";
 import { Statistics } from "./statistics.js";
+import { Colors } from "./colors.js";
+import { Colleague } from "../View/colleague.js";
 
-class Dataset {
-	constructor(promisedData) {
+class Dataset extends Colleague {
+	constructor(promisedData, mediator) {
+		super(mediator);
+		this.register("dataset");
 		this.data = new Data(promisedData);
 		this.topics = new Topics(this.data.coreData);
 		this.dictionary = new Dictionary(this.data.coreData);
 		this.stats = new Statistics(this.data.statsData);
+		this.colors = new Colors(this.topics, this.mediator);
+		this.weekBundle = {
+			data: this.data.weekData,
+			maxU: this.stats.maxWeekUGCm,
+			maxM: this.stats.maxWeekMGCm,
+			maxUG: this.stats.maxWeekUG,
+			maxMG: this.stats.maxWeekMG
+		};
+		this.fortnightBundle = {
+			data: this.data.fortnightData,
+			maxU: this.stats.maxFortnightUGCm,
+			maxM: this.stats.maxFortnightMGCm,
+			maxUG: this.stats.maxFortnightUG,
+			maxMG: this.stats.maxFortnightMG
+		};
+		this.monthBundle = {
+			data: this.data.monthData,
+			maxU: this.stats.maxMonthUGCm,
+			maxM: this.stats.maxMonthMGCm,
+			maxUG: this.stats.maxMonthUG,
+			maxMG: this.stats.maxMonthMG
+		};
+		this.quarterBundle = {
+			data: this.data.quarterData,
+			maxU: this.stats.maxQuarterUGCm,
+			maxM: this.stats.maxQuarterMGCm,
+			maxUG: this.stats.maxQuarterUG,
+			maxMG: this.stats.maxQuarterMG
+		};
+		this.bundle = [this.weekBundle, this.fortnightBundle, this.monthBundle, this.quarterBundle];
+		this.currentBundle = 1;
+	}
+
+	setBundle(i) {
+		this.currentBundle = i;
+	}
+
+	getBundle() {
+		return this.bundle[this.currentBundle];
 	}
 }
+
 
 class Data {
 	constructor(promisedData) {

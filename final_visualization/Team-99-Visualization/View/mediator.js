@@ -12,7 +12,7 @@ class Mediator {
     requestAction(colleague, action, val) {
         let func = this.colleagues[colleague][action];
         func = func.bind(this.colleagues[colleague]);
-        func(val);
+        return func(val);
     }
 
     registerColleague(colleagueName, colleague) {

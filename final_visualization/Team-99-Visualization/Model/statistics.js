@@ -16,6 +16,10 @@ class Statistics {
         this.maxFortnightMGCm = this.data["max_m_fortnight_cm"];
         this.maxMonthMGCm = this.data["max_m_month_cm"];
         this.maxQuarterMGCm = this.data["max_m_quarter_cm"];
+        this.maxWeekUGCm = this.data["max_u_week_cm"];
+        this.maxFortnightUGCm = this.data["max_u_fortnight_cm"];
+        this.maxMonthUGCm = this.data["max_u_month_cm"];
+        this.maxQuarterUGCm = this.data["max_u_quarter_cm"];
     }
 }
 

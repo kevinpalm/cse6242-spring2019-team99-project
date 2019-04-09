@@ -6,6 +6,14 @@ body {
 .flexContainer {
     display: flex;
     justify-content: center;
+    align-content: center;
+}
+
+.detailGraphContainer {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: row;
 }
 
 .uiContainer {
@@ -22,7 +30,6 @@ body {
 
 .optionsContainer {
     padding: 10px;
-
 }
 
 .optionButton {
@@ -35,6 +42,7 @@ body {
 }
 
 .timeButton {
+    margin: 3px;
     border-style: solid;
     border-color: black;
     border-width: 3px;
@@ -45,16 +53,15 @@ body {
 
 .footerOptionsContainer {
     display: flex;
+    justify-content: space-evenly;
 }
 
 .timeOptionsContainer {
-    flex-grow: 1;
     display: flex;
     justify-content: center;
 }
 
 .playOptionsContainer {
-    flex-grow: 1;
     display: flex;
     justify-content: center;
 }
@@ -72,12 +79,6 @@ body {
 }
 
 .graphContainer {
-    border-style: solid;
-    border-color: black;
-    border-width: 2px;
-}
-
-.uiContainer {
     border-style: solid;
     border-color: black;
     border-width: 2px;
@@ -109,10 +110,10 @@ body {
 
 .topicBlock {
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    height: 30%;
+    display: grid;
+    grid-template-rows: 21% 21% 21% 21%;
+    grid-row-gap: 4%;
     border-style: solid;
     border-color: black;
     border-width: 2px;
@@ -120,37 +121,97 @@ body {
 
 .topicRow {
     width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    border-style: solid;
-    border-color: black;
-    border-width: 2px;
+    display: grid;
+    grid-template-columns: 48% 23% 23%;
+    grid-column-gap: 3%;
 }
 
-.first { order: 1; }
-.second { order: 2; }
-.third { order: 3; }
+.topicHRow {
+    background-color: gray;
+    color: white;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 48% 23% 23%;
+    grid-column-gap: 3%;
+}
 
 .topicWords {
-    flex-grow: 2;
-    border-style: solid;
-    border-color: black;
-    border-width: 2px;
+    width: 100%;
+    align-self: center;
+    justify-self: center;
 }
 
 .topicName {
-    flex-grow: 1;
-    border-style: solid;
-    border-color: black;
-    border-width: 2px;
+    width: 100%;
+    padding: 3px;
+    background-color: #55AFFF;
+    border-radius: 20px;
+    justify-self: center;
+    align-self: center;
 }
 
 .topicStat {
-    flex-grow: 1;
+    justify-self: center;
+    align-self: center;
+}
 
-    border-style: solid;
-    border-color: black;
-    border-width: 2px;
+.topicHWords {
+    width: 100%;
+    align-self: center;
+    justify-self: center;
+}
+
+.topicHName {
+    width: 100%;
+    justify-self: center;
+    align-self: center;
+}
+
+.topicHStat {
+    width: 100%;
+    justify-self: center;
+    align-self: center;
+}
+
+/* Citation: css button generator */
+.myButton {
+    margin: 5px;
+	-moz-box-shadow: 0px 1px 0px 0px #f0f7fa;
+	-webkit-box-shadow: 0px 1px 0px 0px #f0f7fa;
+	box-shadow: 0px 1px 0px 0px #f0f7fa;
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #33bdef), color-stop(1, #019ad2));
+	background:-moz-linear-gradient(top, #33bdef 5%, #019ad2 100%);
+	background:-webkit-linear-gradient(top, #33bdef 5%, #019ad2 100%);
+	background:-o-linear-gradient(top, #33bdef 5%, #019ad2 100%);
+	background:-ms-linear-gradient(top, #33bdef 5%, #019ad2 100%);
+	background:linear-gradient(to bottom, #33bdef 5%, #019ad2 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#33bdef', endColorstr='#019ad2',GradientType=0);
+	background-color:#33bdef;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:1px solid #057fd0;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-decoration:none;
+	text-shadow:0px -1px 0px #5b6178;
+}
+.myButton:hover {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #019ad2), color-stop(1, #33bdef));
+	background:-moz-linear-gradient(top, #019ad2 5%, #33bdef 100%);
+	background:-webkit-linear-gradient(top, #019ad2 5%, #33bdef 100%);
+	background:-o-linear-gradient(top, #019ad2 5%, #33bdef 100%);
+	background:-ms-linear-gradient(top, #019ad2 5%, #33bdef 100%);
+	background:linear-gradient(to bottom, #019ad2 5%, #33bdef 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#019ad2', endColorstr='#33bdef',GradientType=0);
+	background-color:#019ad2;
+}
+.myButton:active {
+	position:relative;
+	top:1px;
 }

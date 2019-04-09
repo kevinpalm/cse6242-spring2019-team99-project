@@ -9,7 +9,7 @@ class Canvas {
 		let graphSvg = this.container.append("svg")
 			.attr("width", this.dims.canvasWidth)
 			.attr("height", this.dims.canvasHeight)
-			.attr("class", "g")
+			.attr("class", "flexContainer")
 		.append("g")
 			.attr("transform", "translate(" + this.dims.margin.left + ", " + this.dims.margin.top + ")");
 		return graphSvg;

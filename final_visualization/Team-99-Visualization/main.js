@@ -1,6 +1,7 @@
 import { MVCView } from "./MVCView.js";
 import { MVCModel } from "./MVCModel.js";
 import { PromiseManager } from "./Model/promiseManager.js";
+import { Mediator } from "./View/mediator.js";
 
 function main() {
 	let promiseManager = new PromiseManager();
@@ -8,10 +9,9 @@ function main() {
 }
 
 function runApp(data) {
-	console.log(data);
-	let model = new MVCModel(data);
-	let view = new MVCView(model);
-	console.log(model.dataset.topics.topicNames);
+	let mediator = new Mediator();
+	let model = new MVCModel(data, mediator);
+	let view = new MVCView(model, mediator);
 }
 
 main();

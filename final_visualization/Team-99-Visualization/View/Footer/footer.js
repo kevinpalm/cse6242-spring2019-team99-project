@@ -10,7 +10,7 @@ class Footer {
         this.mediator = mediator;
 
         this.timeScaleContainer = this.container.append("div")
-            .style("padding", "5px");
+            .style("padding", "10px");
         this.optionsContainer = this.container.append("div")
             .attr("class", "footerOptionsContainer");
         this.timeOptionsContainer = this.optionsContainer.append("div")

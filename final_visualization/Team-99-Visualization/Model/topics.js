@@ -1,8 +1,10 @@
 class Topics {
 		constructor(dataset) {
 			this.dataset = dataset;
-			this.topicNames = this.dataset.map(function (d) {
-				 return d.Chat_Topic; });
+			this.topicNames = new Set(this.dataset.map(function (d) {
+				 return d.Chat_Topic; }));
+			this.topicNames.delete(undefined);
+			this.topicNames.delete("");
 			this.topicDictionary = this.dataset.reduce(function(result, d) { 
 			if(result["message_id"]) {
 				result = {};
