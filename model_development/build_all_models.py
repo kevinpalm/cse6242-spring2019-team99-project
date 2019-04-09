@@ -57,7 +57,7 @@ def build_all():
 	with sqlite3.connect('../database/chat.db') as conn:
 
 		# get vocabulary
-		MIN_OCCURANCE = 1
+		MIN_OCCURANCE = 100
 		vocab = Dictionary([pd.read_sql('select word from words where freq >= {}'.format(MIN_OCCURANCE), conn)['word'].tolist()])
 
 		# models for different number of topics
