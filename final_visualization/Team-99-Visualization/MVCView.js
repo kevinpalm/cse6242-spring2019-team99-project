@@ -7,6 +7,8 @@ import { Axis } from "./View/Graph/axis.js";
 import { UI } from "./View/UI/ui.js";
 import { Header } from "./View/header.js";
 import { Footer } from "./View/Footer/footer.js";
+import { West } from "./View/Wings/west.js";
+import { East } from "./View/Wings/east.js";
 
 class MVCView {
 	constructor(model, mediator) {
@@ -23,6 +25,8 @@ class MVCView {
 		this.layout.footer.style("height", this.dims.footerHeight + "px");
 		this.header = new Header(this.dims, this.layout.header);
 		this.footer = new Footer(this.dims, this.layout.footer, this.scale, this.mediator);
+		this.west = new West(this.dims, this.layout.westContainer, this.model.dataset, this.mediator);
+		this.east = new East(this.dims, this.layout.eastContainer, this.mediator);
 	}
 }
 

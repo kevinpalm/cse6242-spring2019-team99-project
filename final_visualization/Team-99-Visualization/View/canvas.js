@@ -6,12 +6,14 @@ class Canvas {
 	}
 	
 	createGraph() {
+		console.log(this.dims.margin.left, this.dims.padding.left);
+		let translateX = (this.dims.canvasWidth - this.dims.graphWidth) / 1.5;
+		let translateY = (this.dims.canvasHeight - this.dims.graphHeight) / 2;
 		let graphSvg = this.container.append("svg")
 			.attr("width", this.dims.canvasWidth)
 			.attr("height", this.dims.canvasHeight)
-			.attr("class", "flexContainer")
 		.append("g")
-			.attr("transform", "translate(" + this.dims.margin.left + ", " + this.dims.margin.top + ")");
+			.attr("transform", "translate(" + translateX + ", " + translateY + ")");
 		return graphSvg;
 	}
 	

@@ -27,10 +27,15 @@ class LayoutDimensions {
 		this.uiHeight = this.graphHeight + this.padding.top + this.padding.bottom;
 		this.uiWidth  = this.width - this.canvasWidth - this.padding.right - this.padding.left;
 
+		this.wingWidth = (this.width - this.canvasWidth - this.uiWidth + (this.padding.left * .75)) - 2;
+
 		this.detailPadding = 25;
 
 		this.detailGraphHeight = 2 * this.uiHeight / 3.0;
 		this.detailGraphWidth = this.uiWidth;
+
+		this.detailCanvasHeight = this.detailGraphHeight + this.padding.bottom;
+		this.detailCanvasWidth = this.detailGraphWidth;
 
 		this.detailLeftX = this.padding.left;
 		this.detailRightX = this.detailGraphWidth - this.padding.right;
@@ -48,6 +53,7 @@ class LayoutDimensions {
 
 		this.timeButtonWidth = this.timeScaleContainerWidth / 9;
 		this.playButtonWidth = this.timeScaleContainerWidth / 9;
+		this.chartButtonWidth = this.wingWidth * 0.8;
 	}
 }
 

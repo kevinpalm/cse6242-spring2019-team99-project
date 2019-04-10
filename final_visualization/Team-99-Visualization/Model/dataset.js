@@ -9,7 +9,7 @@ class Dataset extends Colleague {
 		super(mediator);
 		this.register("dataset");
 		this.data = new Data(promisedData);
-		this.topics = new Topics(this.data.coreData);
+		this.topics = new Topics(this.mediator, this.data.coreData);
 		this.dictionary = new Dictionary(this.data.coreData);
 		this.stats = new Statistics(this.data.statsData);
 		this.colors = new Colors(this.topics, this.mediator);
@@ -18,31 +18,49 @@ class Dataset extends Colleague {
 			maxU: this.stats.maxWeekUGCm,
 			maxM: this.stats.maxWeekMGCm,
 			maxUG: this.stats.maxWeekUG,
-			maxMG: this.stats.maxWeekMG
+			maxMG: this.stats.maxWeekMG,
+			timeType: "W",
+			timeStep: 2
 		};
 		this.fortnightBundle = {
 			data: this.data.fortnightData,
 			maxU: this.stats.maxFortnightUGCm,
 			maxM: this.stats.maxFortnightMGCm,
 			maxUG: this.stats.maxFortnightUG,
-			maxMG: this.stats.maxFortnightMG
+			maxMG: this.stats.maxFortnightMG,
+			timeType: "W",
+			timeStep: 4
 		};
 		this.monthBundle = {
 			data: this.data.monthData,
 			maxU: this.stats.maxMonthUGCm,
 			maxM: this.stats.maxMonthMGCm,
 			maxUG: this.stats.maxMonthUG,
-			maxMG: this.stats.maxMonthMG
+			maxMG: this.stats.maxMonthMG,
+			timeType: "M",
+			timeStep: 1
 		};
 		this.quarterBundle = {
 			data: this.data.quarterData,
 			maxU: this.stats.maxQuarterUGCm,
 			maxM: this.stats.maxQuarterMGCm,
 			maxUG: this.stats.maxQuarterUG,
-			maxMG: this.stats.maxQuarterMG
+			maxMG: this.stats.maxQuarterMG,
+			timeType: "M",
+			timeStep: 3
 		};
 		this.bundle = [this.weekBundle, this.fortnightBundle, this.monthBundle, this.quarterBundle];
 		this.currentBundle = 1;
+	}
+
+	getTopicUsers(topicNum) {
+		let bundle = this.getBundle();
+		return bundle.data[bundle.data.length - 1]["users_" + topicNum + "_cm"]
+	}
+
+	getTopicMessages(topicNum) {
+		let bundle = this.getBundle();
+		return bundle.data[bundle.data.length - 1]["messages_" + topicNum + "_cm"]
 	}
 
 	setBundle(i) {

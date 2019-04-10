@@ -52,15 +52,12 @@ first_row = getRow(0)
 
 for key in df_dict.keys():
     df_dict[key] = data[:][data.Chat_Topic == key]
-    # for the love of god this was difficult to figure out...
-    # the numbers are going to be off by one on some figures
-    # because in order to get the dates to line up for resampling
+    # The numbers are going to be off by one on some figures
+    # In order to get the dates to line up for resampling
     # I had to insert the start date of the earliest message in the dataset
-    # to the beginning of each topic dataframe
+    # to the beginning of each topic dataframe.
     # Some of the topics didn't get their first message until much later
-    # which caused the alignment of the dfs to stagger upon downsampling
-    # I'm sure somebody with more pandas experience would've sorted this out
-    # more quickly...
+    # which caused the alignment of the dfs to stagger upon downsampling.
     if getIndex(0) not in df_dict[key]:
         df_dict[key] = first_row.append(df_dict[key])
     index = pd.to_datetime(df_dict[key]["sent_at"]).rename("id")

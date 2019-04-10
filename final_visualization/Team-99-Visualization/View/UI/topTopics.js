@@ -1,12 +1,13 @@
 import { Colleague } from "../colleague.js";
 
 class TopTopics extends Colleague {
-    constructor(layout, container, topicData, mediator) {
+    constructor(layout, container, dataset, mediator) {
         super(mediator)
         this.register("topTopics");
         this.layout = layout;
         this.container = container;
-        this.topicData = topicData;
+        this.dataset = dataset;
+        this.topicData = dataset.data.topicData;
         this.topicsPanel = this.container.append("div").attr("class", "topicBlock")
         this.header = this.initHeader();
         this.topics = this.initTopics();
@@ -24,12 +25,11 @@ class TopTopics extends Colleague {
     initTopics() {
         let topics = [];
         for(let i = 0; i < 3; i++) {
-            console.log(this.topicData);
             let topic = this.topicsPanel.append("div").attr("class", "topicRow");
             let words = topic.append("div").attr("class", "topicWords").html(this.topThreeWords(i));
             let topicName = topic.append("div").attr("class", "topicName").html(this.topicData[i]["Topic_Num"]);
             topicName.style("background-color", this.mediator.requestAction("colors", "getColor", i));
-            let stat = topic.append("div").attr("class", "topicStat").html("0");
+            let stat = topic.append("div").attr("class", "topicStat").html(this.dataset.getTopicMessages(i));
             topics.push(topic);
         }
         return topics;
@@ -40,7 +40,7 @@ class TopTopics extends Colleague {
         let topic = this.topicsPanel.append("div").attr("class", "topicRow");
         let words = topic.append("div").attr("class", "topicWords").html(this.topThreeWords(topicNum));
         let topicName = topic.append("div").attr("class", "topicName").html(this.topicData[topicNum]["Topic_Num"]);
-        let stat = topic.append("div").attr("class", "topicStat").html("0");
+        let stat = topic.append("div").attr("class", "topicStat").html(this.dataset.getTopicMessages(topicNum));
         let hsl = this.mediator.requestAction("colors", "getColor", topicNum);
         topicName.style("background-color", hsl);
         this.topics.splice(0, 0, topic);

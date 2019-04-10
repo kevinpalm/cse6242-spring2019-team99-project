@@ -10,30 +10,36 @@ class PopularityGraph extends Colleague {
 		this.dataset = data;
 		this.maxUG = 0;
 		this.maxWG = 0;
+		this.currentTopic = 0;
+		this.bubbleScalingFactor = 30;
 		this.requestFortnights();
 	}
 
 	requestWeeks() {
 		this.maxUG = this.dataset.stats.maxWeekUG;
 		this.maxMG = this.dataset.stats.maxWeekMG;
+		this.bubbleScalingFactor = 25;
 		this.draw(this.dataset.data.weekData, this.scale.graphXWeek)
 	}
 
 	requestFortnights() {
 		this.maxUG = this.dataset.stats.maxFortnightUG;
 		this.maxMG = this.dataset.stats.maxFortnightMG;
+		this.bubbleScalingFactor = 30;
 		this.draw(this.dataset.data.fortnightData, this.scale.graphXFortnight);
 	}
 
 	requestMonths() {
 		this.maxUG = this.dataset.stats.maxMonthUG;
 		this.maxMG = this.dataset.stats.maxMonthMG;
+		this.bubbleScalingFactor = 40;
 		this.draw(this.dataset.data.monthData, this.scale.graphXMonth);
 	}
 
 	requestQuarters() {
 		this.maxUG = this.dataset.stats.maxQuarterUG;
 		this.maxMG = this.dataset.stats.maxQuarterMG;
+		this.bubbleScalingFactor = 60;
 		this.draw(this.dataset.data.quarterData, this.scale.graphXQuarter);
 	}
 
@@ -52,6 +58,10 @@ class PopularityGraph extends Colleague {
 		for(let i = 0; i < 15; i++){
 			let requestTopicFunc = this.requestFunc(i);
 			let mediator = this.mediator;
+			this.currentTopic = i;
+			let bubbleName = this.bubbleName;
+			let bubbleScalingFactor = this.bubbleScalingFactor;
+			bubbleName = bubbleName.bind(this);
 			this.svg.selectAll(".dataPoint")
 			.data(data)
 			.enter()
@@ -60,32 +70,44 @@ class PopularityGraph extends Colleague {
 				return "translate(" + scaleX(d["messages_" + i.toString() + "_cm"]) + "," + scaleY(d["users_" + i.toString() + "_cm"]) + ")";
 			})
 			.append("ellipse")
+			.attr("class", function(d) {
+				return "bubble_" + d.id.split(" ")[0] + "_topic_" + i.toString();
+			})
 			.attr("rx", function(d) {
 				let w = d["messages_" + i.toString()];
-				return 20 * (w / maxMG);
+				return bubbleScalingFactor * (w / maxMG);
 			})
 			.attr("ry", function(d) {
 				let h =  d["users_" + i.toString()];
-				return 20 * (h / maxUG);
+				return bubbleScalingFactor * (h / maxUG);
 			})
 			.attr("fill", function() { 
 				let hsl = mediator.requestAction("colors", "getColor", i);
 				return hsl;
 			})
 			.attr("fill-opacity", "0.75")
-			.on("mouseover", onMouseOver)
-			.on("mouseout", onMouseOut)
+			.on("mouseover", function(d) {
+				d3.select(this).attr("stroke", "black").attr("stroke-width", "2px");
+				if(bubbleName(d) == d3.select(this).attr("class")) {
+					mediator.requestAction("detailGraph", "onMouseOver", d.id);
+				}
+			})
+			.on("mouseout", function(d) {
+				d3.select(this).attr("stroke", "black").attr("stroke-width", "0px");
+				mediator.requestAction("detailGraph", "onMouseOut", d.id);
+			})
 			.on("click", requestTopicFunc);
 		}
+		this.currentTopic = 0;
 	}
-}
 
-function onMouseOver(d, i) {
-	d3.select(this).attr("stroke", "black").attr("stroke-width", "2px");
-}
+	setTopic(i) {
+		this.currentTopic = i;
+	}
 
-function onMouseOut(d, i) {
-	d3.select(this).attr("stroke", "black").attr("stroke-width", "0px");
+	bubbleName(d) {
+		return "bubble_" + d.id.split(" ")[0] + "_topic_" + this.currentTopic.toString();
+	}
 }
 
 class TopicRequest {
@@ -95,8 +117,9 @@ class TopicRequest {
 	}
 
 	requestTopicDetail() {
-		this.mediator.requestAction("topTopics", "setTopic", this.topic)
-		this.mediator.requestAction("detailGraph", "requestTopic", this.topic)
+		this.mediator.requestAction("topTopics", "setTopic", this.topic);
+		this.mediator.requestAction("detailGraph", "requestTopic", this.topic);
+		this.mediator.requestAction("graph", "setTopic", this.topic);
 	}
 }
 

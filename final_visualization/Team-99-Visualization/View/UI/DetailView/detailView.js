@@ -6,8 +6,8 @@ class DetailView {
 		this.container = container;
 		this.data = data;
 		this.mediator = mediator;
-		this.viewHeight = this.layout.detailGraphHeight;
-		this.viewWidth = this.layout.detailGraphWidth;
+		this.viewHeight = this.layout.detailCanvasHeight;
+		this.viewWidth = this.layout.detailCanvasWidth;
 		this.viewContainer = container.append("div").attr("class", "detailGraphContainer");
 		this.svg = this.createView();
 		this.graph = new DetailGraph(this.svg, this.layout, this.data, this.mediator);

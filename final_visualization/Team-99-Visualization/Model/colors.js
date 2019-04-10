@@ -1,5 +1,6 @@
 import { Colleague } from "../View/colleague.js";
 
+// Citation: Implemented equations from:
 // Escaping RGBland Achim Zeileis, Kurt Hornik, Paul Murrell
 
 class Colors extends Colleague {
@@ -15,6 +16,7 @@ class Colors extends Colleague {
         this.maxLit = 90;
         this.satRange = this.maxSat - this.minSat;
         this.litRange = this.maxLit - this.minLit;
+        this.contrast = 7;
     }
 
     getColor(topicNum) {
@@ -24,6 +26,26 @@ class Colors extends Colleague {
         hue = parseInt(hue);
         sat = parseInt(sat);
         lit = parseInt(lit);
+        return "hsl(" + hue + ", " + sat + "%, " + lit + "%)";
+    }
+
+    getUserColor(topicNum) {
+        let hue = this.hueTransform(topicNum);
+        let sat = this.satTransform(topicNum);
+        let lit = this.litTransform(topicNum);
+        hue = parseInt(hue);
+        sat = parseInt(sat);
+        lit = parseInt(lit) - this.contrast;
+        return "hsl(" + hue + ", " + sat + "%, " + lit + "%)";
+    }
+
+    getMessageColor(topicNum) {
+        let hue = this.hueTransform(topicNum);
+        let sat = this.satTransform(topicNum);
+        let lit = this.litTransform(topicNum);
+        hue = parseInt(hue);
+        sat = parseInt(sat);
+        lit = parseInt(lit) + this.contrast;
         return "hsl(" + hue + ", " + sat + "%, " + lit + "%)";
     }
 
@@ -40,7 +62,7 @@ class Colors extends Colleague {
     }
 
     i(topicNum) {
-        let numTopics = this.topics.topicNames.size;
+        let numTopics = this.topics.topicNames.length;
         return (topicNum / numTopics);
     }
 
@@ -49,12 +71,12 @@ class Colors extends Colleague {
     }
 
     iDoublePrime(topicNum) {
-        let numTopics = this.topics.topicNames.size;
+        let numTopics = this.topics.topicNames.length;
         return (topicNum * topicNum) / (numTopics * numTopics);
     }
 
     sigmoid(topicNum) {
-        let numTopics = this.topics.topicNames.size;
+        let numTopics = this.topics.topicNames.length;
         let midPoint = parseInt(numTopics / 2);
         let t = topicNum - midPoint;
         return 1.0 / (1 + Math.exp(t))

@@ -8,11 +8,11 @@ class UI {
 	this.dataset = dataset;
 	this.mediator = mediator;
 	this.panel = this.container.append('div')
-		.attr("class", "uiContainer")
+		.attr("class", "uiInterior")
 		.attr("align", "center")
 		.attr("width", layout.uiWidth)
-		.style("height", layout.uiHeight + "px");
-	this.topTopics = new TopTopics(layout, this.panel, this.dataset.data.topicData, this.mediator);
+		.style("height", layout.canvasHeight + "px");
+	this.topTopics = new TopTopics(layout, this.panel, this.dataset, this.mediator);
 	this.detailView = new DetailView(layout, this.panel, this.dataset, this.mediator);
 	}
 }
