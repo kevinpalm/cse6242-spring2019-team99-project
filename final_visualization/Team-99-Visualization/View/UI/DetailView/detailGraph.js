@@ -219,7 +219,7 @@ class DetailGraph extends Colleague {
     }
 
     onMouseOver(id) {
-        d3.selectAll(".bars_" + id.split(" ")[0]).attr("stroke", "black").attr("stroke-width", "1px");
+        d3.selectAll(".bars_" + id.split(" ")[0]).attr("stroke", "black").attr("stroke-width", "2px");
     }
 
     onMouseOut(id) {

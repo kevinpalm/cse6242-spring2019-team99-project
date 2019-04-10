@@ -19,16 +19,16 @@ class East {
     createOptionsPanel() {
         let optionsPanel = this.panel.append("div")
             .attr("class", "chartOptions");
-        let title = optionsPanel.append("text")
-            .style("width", "100%")
-            .style("padding-left", "10px")
-            .style("padding-right", "10px")
-            .style("padding-top", "15px")
-            .style("padding-bottom", "15px")
-            .style("background-color", "gray")
-            .style("text-align", "center")
-            .style("color", "white")
-            .text("View Options")
+        let title = optionsPanel.append("div")
+        .style("height", "45px")
+        .style("width", "100%")
+        .style("background-color", "gray")
+        .style("display", "flex")
+        .style("align-items", "center")
+        .style("justify-content", "center")
+    .append("text")
+        .style("color", "white")
+        .text("View Options");
         let messages = this.createButton(optionsPanel, "Messages", this.messages);
         let users = this.createButton(optionsPanel, "Users", this.users);
         let both = this.createButton(optionsPanel, "Both", this.both);
