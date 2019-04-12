@@ -8,17 +8,15 @@ class Canvas {
 	}
 	
 	createGraph() {
-		console.log(this.dims.margin.left, this.dims.padding.left);
 		let translateX = (this.dims.canvasWidth - this.dims.graphWidth) / 1.5;
-		let translateY = (this.dims.canvasHeight - this.dims.graphHeight) / 2;
+		let translateY = (this.dims.svgHeight - this.dims.graphHeight) / 4;
 		let mediator = this.mediator;
 		let graphSvg = this.container.append("svg")
 			.attr("width", this.dims.canvasWidth)
-			.attr("height", this.dims.canvasHeight)
+			.attr("height", this.dims.svgHeight)
 			.attr("class", "graphSvg")
 			.call(d3.zoom().on("zoom", function() {
 				let transform = d3.event.transform;
-				console.log(transform);
 				d3.selectAll(".bubbleContainer").attr("transform", transform);
 				mediator.requestAction("axis", "rescale", transform);
 			}))

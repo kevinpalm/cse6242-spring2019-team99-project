@@ -20,9 +20,16 @@ class LayoutDimensions {
 
 		this.canvasWidth = this.width / 1.618 - this.padding.right - this.padding.left;
 		this.canvasHeight = this.height - this.padding.top - this.padding.bottom;
+
+		this.wingHeader = this.canvasHeight / 16;
+		this.listViewHeight = this.canvasHeight * 7 / 16;
+		this.scaleOptionsHeight = this.canvasHeight * 0.5;
+
+		this.canvasBanner = this.wingHeader;
+		this.svgHeight = this.canvasHeight - this.canvasBanner;
 		
 		this.graphWidth = this.canvasWidth - this.padding.right - this.padding.left;
-		this.graphHeight = this.canvasHeight - this.padding.bottom - this.padding.top - this.margin.bottom - this.margin.top;
+		this.graphHeight = this.svgHeight - this.margin.bottom - this.margin.top;
 
 		this.uiHeight = this.graphHeight + this.padding.top + this.padding.bottom;
 		this.uiWidth  = this.width - this.canvasWidth - this.padding.right - this.padding.left;
@@ -43,13 +50,13 @@ class LayoutDimensions {
 		this.detailBottomY = this.detailGraphHeight - this.padding.bottom + this.detailPadding;
 		this.detailBottomWidth = this.detailGraphWidth - 2 * this.padding.left;
 
-		let remainingHeight = this.outerHeight - this.height;
-		this.headerHeight = remainingHeight * 0.38;
-		this.footerHeight = remainingHeight * 0.62;
+		let remainingHeight = this.outerHeight - this.height + this.padding.top;
+		this.headerHeight = remainingHeight * 0.33;
+		this.footerHeight = remainingHeight * 0.67;
 
 		this.timeScaleContainerWidth = this.width - this.padding.right - this.padding.left;
 		this.timeScaleWidth = this.timeScaleContainerWidth - this.padding.right - this.padding.left;
-		this.timeScaleHeight = this.headerHeight / 3;
+		this.timeScaleHeight = this.footerHeight / 3;
 
 		this.timeButtonWidth = this.timeScaleContainerWidth / 9;
 		this.playButtonWidth = this.timeScaleContainerWidth / 9;

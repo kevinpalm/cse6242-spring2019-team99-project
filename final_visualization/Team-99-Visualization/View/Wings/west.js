@@ -12,15 +12,21 @@ class West {
     }
 
     initPanel() {
+        let mediator = this.mediator;
         return this.container.append("div")
             .attr("class", "west")
             .style("height", this.layout.canvasHeight + "px")
-            .style("width", this.layout.wingWidth + "px");
+            .style("width", this.layout.wingWidth + "px")
+            .on("mouseout", function() {
+                mediator.requestAction("infoBanner", "displayDefault");
+            });
     }
 
     initListView() {
+        let mediator = this.mediator;
         let listView = this.panel.append("div")
-            .attr("class", "listView");
+            .attr("class", "listView")
+            .style("height", this.layout.listViewHeight + "px");
         return listView;
     }
 
@@ -29,8 +35,10 @@ class West {
         let topicDivs = [];
         let activeTopics = this.dataset.topics.getActiveTopics();
         let mediator = this.mediator;
-        console.log(activeTopics);
+        let prevSelect = -1;
+        let ref = this;
         for(let i = 0; i < numTopics; i++) {
+            let display = "Topic " + i + ": " + this.dataset.topics.getWords(i);
             let topicDiv = this.listView.append("div")
                 .style("background-color", activeTopics.includes(i) ? this.mediator.requestAction("colors", "getColor", i) : this.getGray(i))
                 .style("text-align", "center")
@@ -39,23 +47,24 @@ class West {
                      d3.select(this).style("border-color", "black");
                      d3.select(this).style("border-style", "solid");
                      d3.selectAll(".dataPoint_" + i).attr("stroke", "black").attr("stroke-width", "1px");
+                     mediator.requestAction("infoBanner", "display", display);
                  })
                  .on("mouseout", function() {
                      d3.select(this).style("border-width", "0px");
                      d3.selectAll(".dataPoint_" + i).attr("stroke-width", "0px");
                  })
                  .on("click", function() {
-                    if(activeTopics.includes(i)) {
-                        mediator.requestAction("topics", "deactivateTopic", i);
-                        mediator.requestAction("graph", "refresh");
-                        mediator.requestAction("axis", "refresh");
-                        d3.select(this).style("background-color", i % 2 == 0 ? "#DFDFDF" : "#BEBEBE");
+                    if(event.shiftKey && prevSelect != -1) {
+                        let min = Math.min(i, prevSelect);
+                        let max = Math.max(i, prevSelect);
+                        min = min == prevSelect ? min : min - 1;
+                        for(let j = min + 1; j <= max; j++) {
+                            ref.flipTopic(mediator, j, activeTopics);
+                        }
                     } else {
-                        mediator.requestAction("topics", "activateTopic", i);
-                        mediator.requestAction("graph", "refresh");
-                        mediator.requestAction("axis", "refresh");
-                        d3.select(this).style("background-color", mediator.requestAction("colors", "getColor", i));
+                        ref.flipTopic(mediator, i, activeTopics);
                     }
+                    prevSelect = i;
                  })
                 .html(i.toString());
             topicDivs.push(topicDiv);
@@ -63,8 +72,25 @@ class West {
         return topicDivs;
     }
 
+    flipTopic(mediator, i, activeTopics) {
+        let node = this.topicDivs[i];
+        if(activeTopics.includes(i)) {
+            mediator.requestAction("topics", "deactivateTopic", i);
+            mediator.requestAction("graph", "refresh");
+            mediator.requestAction("axis", "refresh");
+            node.style("background-color", i % 2 == 0 ? "#DFDFDF" : "#BEBEBE");
+        } else {
+            mediator.requestAction("topics", "activateTopic", i);
+            mediator.requestAction("graph", "refresh");
+            mediator.requestAction("axis", "refresh");
+            node.style("background-color", mediator.requestAction("colors", "getColor", i));
+        }
+    }
+
     initScaleOptions() {
-        let scaleOptions = this.panel.append("div");
+        let scaleOptions = this.panel.append("div")
+            .style("height", this.layout.scaleOptionsHeight + "px")
+            .attr("class", "scaleOptions");
         let sizeLabel = this.initSizeLabel(scaleOptions);
         let sizeSlider = this.initSizeSlider(scaleOptions);
         let zoomLabel = this.initZoomLabel(scaleOptions);
@@ -170,7 +196,7 @@ class West {
 
     initSelectLabel() {
         let selectTopics = this.panel.append("div")
-            .style("height", "45px")
+            .style("height", this.layout.wingHeader + "px")
             .style("width", "100%")
             .style("background-color", "gray")
             .style("display", "flex")

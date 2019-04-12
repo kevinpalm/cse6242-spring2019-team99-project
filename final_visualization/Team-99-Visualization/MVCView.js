@@ -9,6 +9,7 @@ import { Header } from "./View/header.js";
 import { Footer } from "./View/Footer/footer.js";
 import { West } from "./View/Wings/west.js";
 import { East } from "./View/Wings/east.js";
+import { InfoBanner } from "./View/Graph/infoBanner.js";
 
 class MVCView {
 	constructor(model, mediator) {
@@ -16,6 +17,7 @@ class MVCView {
 		this.mediator = mediator;
 		this.dims = new LayoutDimensions();
 		this.layout = new Layout(this.dims);
+		this.infoBanner = new InfoBanner(this.dims, this.layout.graphContainer, this.model.dataset, this.mediator);
 		this.canvas = new Canvas(this.dims, this.layout.graphContainer, this.mediator);
 		this.scale = new Scale(this.dims, this.model.dataset.stats, this.mediator);
 		this.graph = new PopularityGraph(this.dims, this.canvas.displaySvg, this.scale, this.model.dataset, this.mediator);

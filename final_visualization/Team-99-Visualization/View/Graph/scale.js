@@ -16,7 +16,6 @@ class Scale extends Colleague {
 		this.graphYQuarter = d3.scaleLinear().domain([0, parseFloat(stats.maxQuarterUGCm)]).range([layout.graphHeight, 0]);
 		this.currentXScale = this.graphXFortnight;
 		this.currentYScale = this.graphYFortnight;
-		this.timeScale = d3.scaleLinear().domain([0, 150]).range([0, layout.timeScaleWidth]);
 		this.currentTime = 1;
 		this.setScale(1);
 	}

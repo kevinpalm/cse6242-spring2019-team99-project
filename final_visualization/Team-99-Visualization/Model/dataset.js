@@ -20,7 +20,10 @@ class Dataset extends Colleague {
 			maxUG: this.stats.maxWeekUG,
 			maxMG: this.stats.maxWeekMG,
 			timeType: "W",
-			timeStep: 2
+			timeStep: 2,
+			len: this.data.weekData.length,
+			start: this.data.weekData[0]["id"],
+			end: this.data.weekData[this.data.weekData.length - 1]["id"]
 		};
 		this.fortnightBundle = {
 			data: this.data.fortnightData,
@@ -29,7 +32,10 @@ class Dataset extends Colleague {
 			maxUG: this.stats.maxFortnightUG,
 			maxMG: this.stats.maxFortnightMG,
 			timeType: "W",
-			timeStep: 4
+			timeStep: 4,
+			len: this.data.fortnightData.length,
+			start: this.data.fortnightData[0]["id"],
+			end: this.data.fortnightData[this.data.fortnightData.length - 1]["id"]
 		};
 		this.monthBundle = {
 			data: this.data.monthData,
@@ -38,7 +44,10 @@ class Dataset extends Colleague {
 			maxUG: this.stats.maxMonthUG,
 			maxMG: this.stats.maxMonthMG,
 			timeType: "M",
-			timeStep: 1
+			timeStep: 1,
+			len: this.data.monthData.length,
+			start: this.data.monthData[0]["id"],
+			end: this.data.monthData[this.data.monthData.length - 1]["id"]
 		};
 		this.quarterBundle = {
 			data: this.data.quarterData,
@@ -47,7 +56,10 @@ class Dataset extends Colleague {
 			maxUG: this.stats.maxQuarterUG,
 			maxMG: this.stats.maxQuarterMG,
 			timeType: "M",
-			timeStep: 3
+			timeStep: 3,
+			len: this.data.quarterData.length,
+			start: this.data.quarterData[0]["id"],
+			end: this.data.quarterData[this.data.quarterData.length - 1]["id"]
 		};
 		this.bundle = [this.weekBundle, this.fortnightBundle, this.monthBundle, this.quarterBundle];
 		this.currentBundle = 1;

@@ -20,7 +20,7 @@ class East {
         let optionsPanel = this.panel.append("div")
             .attr("class", "chartOptions");
         let title = optionsPanel.append("div")
-        .style("height", "45px")
+        .style("height", this.layout.wingHeader + "px")
         .style("width", "100%")
         .style("background-color", "gray")
         .style("display", "flex")

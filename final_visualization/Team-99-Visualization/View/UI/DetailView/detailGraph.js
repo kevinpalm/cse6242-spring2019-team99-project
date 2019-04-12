@@ -23,7 +23,6 @@ class DetailGraph extends Colleague {
     }
 
     refresh() {
-        this.clear();
         this.requestTopic(this.currentTopic);
     }
 
@@ -213,13 +212,16 @@ class DetailGraph extends Colleague {
     }
 
     requestTopic(topicNum) {
+        this.clear();
         this.currentTopic = topicNum;
         this.createAxes(topicNum);
         this.chartBars(topicNum);
     }
 
     onMouseOver(id) {
-        d3.selectAll(".bars_" + id.split(" ")[0]).attr("stroke", "black").attr("stroke-width", "2px");
+        d3.selectAll(".bars_" + id.split(" ")[0])
+            .attr("stroke", "black")
+            .attr("stroke-width", "2px");
     }
 
     onMouseOut(id) {

@@ -18,9 +18,9 @@ class Footer {
         this.playOptionsContainer = this.optionsContainer.append("div")
             .attr("class", "playOptionsContainer");
 
-        this.timeScale = new TimeScale(this.dims, this.timeScaleContainer, this.scale);
+        this.timeScale = new TimeScale(this.dims, this.timeScaleContainer, this.scale, this.mediator);
         this.timeOptions = new TimeOptions(this.dims, this.timeOptionsContainer, this.mediator);
-        this.playOptions = new PlayOptions(this.dims, this.playOptionsContainer);
+        this.playOptions = new PlayOptions(this.dims, this.playOptionsContainer, this.mediator);
     }
 }
 

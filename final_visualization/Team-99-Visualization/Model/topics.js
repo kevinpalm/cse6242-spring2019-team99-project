@@ -23,7 +23,8 @@ class Topics extends Colleague {
 		}
 		
 		getWords(topic) {
-			return this.topicMap[topic];
+			topic = topic + ".0"
+			return this.topicDictionary[topic];
 		}
 
 		initTopics() {

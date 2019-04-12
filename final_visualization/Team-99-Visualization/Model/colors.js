@@ -8,12 +8,12 @@ class Colors extends Colleague {
         super(mediator);
         this.register("colors");
         this.topics = topics;
-        this.hue1 = 140;
-        this.hue2 = 300;
-        this.minSat = 70;
+        this.hue1 = 110;
+        this.hue2 = 330;
+        this.minSat = 80;
         this.maxSat = 100;
-        this.minLit = 30;
-        this.maxLit = 80;
+        this.minLit = 40;
+        this.maxLit = 70;
         this.satRange = this.maxSat - this.minSat;
         this.litRange = this.maxLit - this.minLit;
         this.contrast = 7;
@@ -67,11 +67,11 @@ class Colors extends Colleague {
     }
 
     satTransform(topicNum) {
-        return this.maxSat - this.iPrime(topicNum) * this.satRange;
+        return this.maxSat - this.i(topicNum) * this.satRange;
     }
 
     litTransform(topicNum) {
-        return this.gauss(topicNum);
+        return this.bellCurve(topicNum);
     }
 
     i(topicNum) {
@@ -96,15 +96,14 @@ class Colors extends Colleague {
         return 1.0 / (1 + Math.exp(t))
     }
 
-    gauss(topicNum) {
-        let val = this.minLit + (this.litRange) * this.i(topicNum);
-        let mean = (this.minLit + this.maxLit) / 2;
-        let variance = 250;
-        let factor = 1500;
+    bellCurve(topicNum) {
+        topicNum += 0.5;
+        let numTopics = (this.topics.topicNames.length);
+        let mean = numTopics / 2;
+        let height = this.litRange;
         let offset = this.minLit;
-        let coefficient = 1 / Math.sqrt(2 * Math.PI * variance)
-        let exp = Math.exp(- ((val - mean) * (val - mean) / (2 * variance)));
-        let result = factor * coefficient * exp + offset;
+        let exp = Math.exp(- ((topicNum - mean) * (topicNum - mean) / (numTopics * 1.5)));
+        let result = height * exp + offset;
         return result;
     }
 }

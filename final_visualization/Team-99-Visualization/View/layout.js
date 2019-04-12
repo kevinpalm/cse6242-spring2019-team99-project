@@ -10,7 +10,8 @@ class Layout {
         this.westContainer = this.bodyContainer.append("div")
             .attr("class", "westContainer");
         this.graphContainer = this.bodyContainer.append("div")
-            .attr("class", "graphContainerExterior");
+            .attr("class", "graphContainerExterior")
+            .style("height", this.dims.canvasHeight + "px");
         this.uiContainer = this.bodyContainer.append("div")
             .attr("class", "uiContainer");
         this.eastContainer = this.bodyContainer.append("div")

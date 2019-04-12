@@ -14,61 +14,90 @@ class PopularityGraph extends Colleague {
 		this.bubbleScalingFactor = 30;
 		this.scalingFactorScalingFactor = 1.0;
 		this.activeGraph = 1;
+		this.currentStep = 0;
+		this.currentMode = "draw";
+		//this.tips = this.initTips();
 		this.requestFortnights();
+	}
+
+	// initTips(topicNum) {
+	// 	let mediator = this.mediator;
+	// 	let tipMap = {};
+	// 	for(let j = 0; j < this.dataset.topics.topicNames.length; j++) {
+	// 		let topic = j;
+	// 		let tip = d3.tip().attr('class', 'd3-tip').html(function (d) { 
+	// 			let id = d.id;
+	// 			let result = "";
+	// 			let date = ["Date", id.toString()];
+	// 			let messages = ["Messages", d["messages_" + topic]];
+	// 			let users = ["Users", d["users_" + topic]];
+	// 			result += "<div class=\"tipContainer\">";
+	// 			result += wrapDivs(date, messages, users);
+	// 			result += "</div>";
+	// 			console.log(result)
+	// 			return result;
+	// 		});
+	// 		tipMap[j] = tip;
+	// 	}
+	// 	return tipMap;
+	// }
+
+	getTip(i) {
+		return this.tips[i];
 	}
 
 	setScalingFactor(val) {
 		this.scalingFactorScalingFactor = val;
 	}
 
-	requestWeeks() {
+	requestWeeks(mode="draw") {
 		this.maxUG = this.dataset.stats.maxWeekUG;
 		this.maxMG = this.dataset.stats.maxWeekMG;
 		this.bubbleScalingFactor = 25;
 		this.activeGraph = 0;
-		this.draw(this.dataset.data.weekData)
+		this.draw(this.dataset.data.weekData, mode)
 	}
 
-	requestFortnights() {
+	requestFortnights(mode="draw") {
 		this.maxUG = this.dataset.stats.maxFortnightUG;
 		this.maxMG = this.dataset.stats.maxFortnightMG;
 		this.bubbleScalingFactor = 30;
 		this.activeGraph = 1;
-		this.draw(this.dataset.data.fortnightData);
+		this.draw(this.dataset.data.fortnightData, mode);
 	}
 
-	requestMonths() {
+	requestMonths(mode="draw") {
 		this.maxUG = this.dataset.stats.maxMonthUG;
 		this.maxMG = this.dataset.stats.maxMonthMG;
 		this.bubbleScalingFactor = 40;
 		this.activeGraph = 2;
-		this.draw(this.dataset.data.monthData);
+		this.draw(this.dataset.data.monthData, mode);
 	}
 
-	requestQuarters() {
+	requestQuarters(mode="draw") {
 		this.maxUG = this.dataset.stats.maxQuarterUG;
 		this.maxMG = this.dataset.stats.maxQuarterMG;
 		this.bubbleScalingFactor = 60;
 		this.activeGraph = 3;
-		this.draw(this.dataset.data.quarterData);
+		this.draw(this.dataset.data.quarterData, mode);
 	}
 
-	refresh() {
+	refresh(mode="draw") {
 		switch(this.activeGraph) {
 			case 0:
-				this.requestWeeks();
+				this.requestWeeks(mode);
 				break;
 			case 1:
-				this.requestFortnights();
+				this.requestFortnights(mode);
 				break;
 			case 2:
-				this.requestMonths();
+				this.requestMonths(mode);
 				break;
 			case 3:
-				this.requestMonths();
+				this.requestQuarters(mode);
 				break;
 			default:
-				this.requestFortnights();
+				this.requestFortnights(mode);
 		}
 	}
 
@@ -79,14 +108,21 @@ class PopularityGraph extends Colleague {
 		return requestFunc;
 	}
 
-	draw(data) {
+	draw(data, mode) {
+		this.currentStep = (mode == "stepForward" && this.currentStep < (data.length - 1)) ? this.currentStep + 1 : this.currentStep;
+		this.currentStep = (mode == "stepBackward" && this.currentStep > 0) ? this.currentStep - 1 : this.currentStep;
+		let offset = (mode == "stepBackward") ? 1 : 0;
+		data = mode.includes("step") ? data.slice(0, this.currentStep + offset) : data;
 		let scaleX = this.scale.currentXScale;
 		let scaleY = this.scale.currentYScale;
 		let maxMG = this.maxMG;
 		let maxUG = this.maxUG;
 		this.svg.selectAll("g").remove();
 		let activeTopics = this.dataset.topics.activeTopics;
+		let duration = mode == "play" ? 1000 : 1500;
+		let t = d3.transition().duration(duration);
 		for(let i = 0; i < 15; i++){
+			//let tip = this.tips[i];
 			if(activeTopics.includes(i)) {
 				let requestTopicFunc = this.requestFunc(i);
 				let mediator = this.mediator;
@@ -95,40 +131,76 @@ class PopularityGraph extends Colleague {
 				let bubbleScalingFactor = this.bubbleScalingFactor * this.scalingFactorScalingFactor;
 				bubbleName = bubbleName.bind(this);
 				let bubbles = this.svg.selectAll(".dataPoint")
-				.data(data)
-				.enter()
+					.data(data)
+					.enter()
 				.append("g")
-				.attr("transform", function(d) { 
-					return "translate(" + scaleX(d["messages_" + i.toString() + "_cm"]) + "," + scaleY(d["users_" + i.toString() + "_cm"]) + ")";
-				})
+					.attr("transform", function(d) { 
+						return "translate(" + scaleX(d["messages_" + i.toString() + "_cm"]) + "," + scaleY(d["users_" + i.toString() + "_cm"]) + ")";
+					})
 				.append("ellipse")
-				.attr("class", function(d) {
-					return "bubble_" + d.id.split(" ")[0] + "_topic_" + i + " dataPoint_" + i + " bubble";
-				})
-				.attr("rx", function(d) {
-					let w = d["messages_" + i.toString()];
-					return bubbleScalingFactor * (w / maxMG);
-				})
-				.attr("ry", function(d) {
-					let h =  d["users_" + i.toString()];
-					return bubbleScalingFactor * (h / maxUG);
-				})
-				.attr("fill", function() { 
-					let hsl = mediator.requestAction("colors", "getColor", i);
-					return hsl;
-				})
-				.attr("fill-opacity", "0.75")
-				.on("mouseover", function(d) {
-					d3.select(this).attr("stroke", "black").attr("stroke-width", "2px");
-					if(d3.select(this).attr("class").includes(bubbleName(d))) {
-						mediator.requestAction("detailGraph", "onMouseOver", d.id);
-					}
-				})
-				.on("mouseout", function(d) {
-					d3.select(this).attr("stroke", "black").attr("stroke-width", "0px");
-					mediator.requestAction("detailGraph", "onMouseOut", d.id);
-				})
-				.on("click", requestTopicFunc);
+					.attr("class", function(d) {
+						return "bubble_" + d.id.split(" ")[0] + "_topic_" + i + " dataPoint_" + i + " bubble";
+					})
+					.attr("rx", function(d, j) {
+						if(mode == "play" || (mode == "stepForward" && j == data.length - 1)) {
+							return 0.001;
+						}
+						let w = d["messages_" + i.toString()];
+						return bubbleScalingFactor * (w / maxMG);
+					})
+					.attr("ry", function(d, j) {
+						if(mode == "play"|| (mode == "stepForward" && j == data.length - 1)) {
+							return 0.001;
+						}
+						let h =  d["users_" + i.toString()];
+						return bubbleScalingFactor * (h / maxUG);
+					})
+					.attr("fill", function() { 
+						let hsl = mediator.requestAction("colors", "getColor", i);
+						return hsl;
+					})
+					.attr("fill-opacity", "0.75")
+					.on("mouseover", function(d) {
+						//tip.show(d);
+						let topic = "Topic: " + i;
+						let date = "Date: " + d.id.split(" ")[0];
+						let messages = "Messages: " + d["messages_" + i];
+						let users = "Users: " + d["users_" + i];
+						let text = [topic, date, users, messages]; 
+						mediator.requestAction("infoBanner", "displayFour", text)
+						d3.select(this).attr("stroke", "black").attr("stroke-width", "2px");
+						if(d3.select(this).attr("class").includes(bubbleName(d))) {
+							mediator.requestAction("detailGraph", "onMouseOver", d.id);
+						}
+					})
+					.on("mouseout", function(d) {
+						d3.select(this).attr("stroke", "black").attr("stroke-width", "0px");
+						mediator.requestAction("detailGraph", "onMouseOut", d.id);
+						mediator.requestAction("infoBanner", "displayDefault")
+					})
+					.on("click", requestTopicFunc);
+				if(mode == "play" || mode == "stepForward" || mode == "stepBackward") {
+					bubbles
+					.data(data)
+					.transition(t)
+					.delay(function(d, j) { 
+						return mode.includes("step") ? 0 : j * 200;
+					})
+					.attr("rx", function(d, j) {
+						if(mode == "stepBackward" && j == data.length - 1) {
+							return 0.001;
+						}
+						let w = d["messages_" + i.toString()];
+						return bubbleScalingFactor * (w / maxMG);
+					})
+					.attr("ry", function(d, j) {
+						if(mode == "stepBackward" && j == data.length - 1) {
+							return 0.001;
+						}
+						let h =  d["users_" + i.toString()];
+						return bubbleScalingFactor * (h / maxUG);
+					});
+				}
 			}
 		}
 		this.currentTopic = 0;
