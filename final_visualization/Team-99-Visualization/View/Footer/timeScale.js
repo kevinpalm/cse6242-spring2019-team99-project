@@ -7,24 +7,65 @@ class TimeScale extends Colleague {
         this.layout = dims;
         this.container = container;
         this.scale = scale;
-        this.blockHeight = 15;
-        this.blockWidth = 7;
-        this.currentStep = 0;
+        this.blockHeight = 18;
+        this.blockWidth = 10;
         this.bundle = this.mediator.requestAction("dataset", "getBundle");
+        this.currentStep = this.bundle.data.length - 1;
         this.scale = d3.scaleTime().domain(d3.extent(this.bundle.data, function(d) { return Date.parse(d.id); })).range([0, this.layout.timeScaleWidth]);
         this.axisModel = this.initAxisModel();
         this.svg = this.createSvg();
         this.axisView = this.createAxis();
         this.timeBlock = this.initTimeBlock();
+        this.currX = 0;
+        this.prevPos = 0;
     }
 
     initTimeBlock() {
+        let layout = this.layout;
+        let min = layout.padding.left;
+        let ref = this;
+        let mediator = this.mediator;
+        this.prevPos = this.currentStep;
+        let drag = d3.drag().on("drag", function() {
+            let max = ref.computeX(ref.bundle.data.length - 1);
+            let range = max - min;
+            let step = range / ref.bundle.data.length;
+            let x = d3.mouse(this)[0];
+            if(x > min && x < max) {
+                d3.select(this).attr("x", x);
+            }
+            ref.currentStep = Math.round((x - min) / step);
+            mediator.requestAction("graph", "setCurrentStep", ref.currentStep);
+        }).on("end", function() {
+            if(ref.prevPos > ref.currentStep) {
+                mediator.requestAction("graph", "refresh", "stepBackward");
+            } else if(ref.prevPos < ref.currentStep) {
+                mediator.requestAction("graph", "refresh", "stepForward");
+            }
+        })
+
         return this.svg.append("rect")
             .attr("width", this.blockWidth)
             .attr("height", this.blockHeight)
-            .attr("x", this.layout.padding.left)
+            .attr("x", this.computeX(this.currentStep))
             .attr("y", 0)
-            .attr("fill", "black");
+            .attr("fill", "black")
+            .call(drag);
+    }
+
+    setCurrentStep(step) {
+		let bundle = this.mediator.requestAction("dataset", "getBundle");
+		if(step >= 0 && step < bundle.data.length) {
+			this.currentStep = step;
+		}
+    }
+    
+    recomputeCurrentStep() {
+        let prevBundle = this.bundle;
+        let ratio = this.currentStep / prevBundle.data.length;
+        this.bundle = this.mediator.requestAction("dataset", "getBundle");
+        this.currentStep = Math.round(this.bundle.data.length * ratio);
+        this.scale = d3.scaleTime().domain(d3.extent(this.bundle.data, function(d) { return Date.parse(d.id); })).range([0, this.layout.timeScaleWidth]);
     }
 
     initAxisModel() {
@@ -33,27 +74,40 @@ class TimeScale extends Colleague {
         return d3.axisBottom(this.scale).ticks(tickAmount).tickFormat(tickFormat);
     }
 
+    computeX(step) {
+        console.log(this.bundle.data.length, step)
+        return this.layout.padding.left + this.scale(Date.parse(this.bundle.data[step]["id"]));
+    }
+
     stepForward() {
+        this.recomputeCurrentStep();
+        this.bundle = this.mediator.requestAction("dataset", "getBundle");
         if(this.currentStep < this.bundle.data.length - 1) {
             this.currentStep += 1;
-            this.bundle = this.mediator.requestAction("dataset", "getBundle");
-            this.timeBlock.attr("x", this.layout.padding.left + this.scale(Date.parse(this.bundle.data[this.currentStep]["id"])));
+            this.timeBlock.attr("x", this.computeX(this.currentStep));
+            this.currX = this.computeX(this.currentStep);
         }
     }
 
     stepBackward() {
+        this.recomputeCurrentStep();
+        this.bundle = this.mediator.requestAction("dataset", "getBundle");
         if(this.currentStep >= 1) {
             this.currentStep -= 1;
-            this.bundle = this.mediator.requestAction("dataset", "getBundle");
-            this.timeBlock.attr("x", this.layout.padding.left + this.scale(Date.parse(this.bundle.data[this.currentStep]["id"])));
+            this.timeBlock.attr("x", this.computeX(this.currentStep));
+            this.currX = this.computeX(this.currentStep);
         }
     }
 
     animate() {
         let bundle = this.mediator.requestAction("dataset", "getBundle");
-        let t = d3.transition().ease(d3.easeLinear).duration(200 * bundle.data.length + 200);
-        this.timeBlock.attr("x", this.layout.padding.left);
+        if(this.currentStep == bundle.data.length - 1) {
+			this.currentStep = 0;
+		}
+        let t = d3.transition().ease(d3.easeLinear).duration(200 * bundle.data.length - 200 * this.currentStep + 200);
+        this.timeBlock.attr("x", this.computeX(this.currentStep));
         this.timeBlock.transition(t).attr("x", this.layout.timeScaleWidth + this.layout.padding.left);
+        this.currentStep = bundle.data.length - 1;
     }
 
     createSvg() {

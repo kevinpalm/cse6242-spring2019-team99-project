@@ -1,9 +1,12 @@
+// TODO: Come up with a more informative title.
+// Perhaps include team member names here?
+
 class Header {
 	constructor(dims, container) {
 		this.dims = dims;
 		this.container = container;
 		this.title = this.create();
-		this.setText("Team 99 Visualization");
+		this.setText("LDA Topic Models - Topic Popularity Over Time");
 	}
 	
 	create() {

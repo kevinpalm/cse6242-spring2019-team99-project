@@ -1,5 +1,7 @@
 import { Colleague } from "../colleague.js";
 
+// TODO: include more info in the banner display.  Example: avg. messages per user
+
 class InfoBanner extends Colleague {
     constructor(layout, container, dataset, mediator) {
         super(mediator);
@@ -20,7 +22,7 @@ class InfoBanner extends Colleague {
         return this.displayThree([t1, t2, t3])
     }
 
-    // TODO: Refactor...
+    // TODO: Refactor this ridiculous copypasta...
     displayThree(textArr) {
         if(this.defaultDisplay) {
             this.defaultDisplay.remove();
@@ -40,6 +42,7 @@ class InfoBanner extends Colleague {
         return threePanel;
     }
 
+    // TODO: refactor this ridiculous copypasta...
     displayFour(textArr) {
         if(this.defaultDisplay) {
             this.defaultDisplay.remove();
@@ -60,6 +63,21 @@ class InfoBanner extends Colleague {
             .style("color", "white")
             .text(textArr[3]);
         return threePanel;
+    }
+
+    displayMany(textArr) {
+        if(this.defaultDisplay) {
+            this.defaultDisplay.remove();
+        }
+        this.panel.text("");
+        let manyPanel = this.panel.append("div")
+            .attr("class", "defaultDisplay");
+        for(let text in textArr) {
+            let div = manyPanel.append("div")
+            .style("color", "white")
+            .text(textArr[text]);
+        }
+        return manyPanel;
     }
 
     display(text) {

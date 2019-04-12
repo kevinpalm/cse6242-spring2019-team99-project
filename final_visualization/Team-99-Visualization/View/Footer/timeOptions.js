@@ -48,6 +48,7 @@ class TimeOptions extends Colleague {
     week() {
         this.mediator.requestAction("dataset", "setBundle", 0);
         this.mediator.requestAction("scale", "setScale", 0);
+        this.mediator.requestAction("graph", "recomputeCurrentStep");
         this.mediator.requestAction("graph", "requestWeeks");
         this.mediator.requestAction("axis", "requestWeeks");
         this.mediator.requestAction("detailGraph", "refresh");
@@ -57,6 +58,7 @@ class TimeOptions extends Colleague {
     fortnight() {
         this.mediator.requestAction("dataset", "setBundle", 1);
         this.mediator.requestAction("scale", "setScale", 1);
+        this.mediator.requestAction("graph", "recomputeCurrentStep");
         this.mediator.requestAction("graph", "requestFortnights");
         this.mediator.requestAction("axis", "requestFortnights");
         this.mediator.requestAction("detailGraph", "refresh");
@@ -66,6 +68,7 @@ class TimeOptions extends Colleague {
     month() {
         this.mediator.requestAction("dataset", "setBundle", 2);
         this.mediator.requestAction("scale", "setScale", 2);
+        this.mediator.requestAction("graph", "recomputeCurrentStep");
         this.mediator.requestAction("graph", "requestMonths");
         this.mediator.requestAction("axis", "requestMonths");
         this.mediator.requestAction("detailGraph", "refresh");
@@ -75,6 +78,7 @@ class TimeOptions extends Colleague {
     quarter() {
         this.mediator.requestAction("dataset", "setBundle", 3);
         this.mediator.requestAction("scale", "setScale", 3);
+        this.mediator.requestAction("graph", "recomputeCurrentStep");
         this.mediator.requestAction("graph", "requestQuarters");
         this.mediator.requestAction("axis", "requestQuarters");
         this.mediator.requestAction("detailGraph", "refresh");

@@ -3,6 +3,8 @@ import { Colleague } from "../View/colleague.js";
 // Citation: Implemented equations from:
 // Escaping RGBland Achim Zeileis, Kurt Hornik, Paul Murrell
 
+// TODO: perhaps fiddle with the hue/sat/lit ranges here.  The colors are a little bit too "fun" right now...
+
 class Colors extends Colleague {
     constructor(topics, mediator) {
         super(mediator);

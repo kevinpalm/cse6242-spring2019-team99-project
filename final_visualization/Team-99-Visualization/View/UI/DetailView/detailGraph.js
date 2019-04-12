@@ -1,5 +1,9 @@
 import { Colleague } from "../../colleague.js";
 
+// TODO: Implement legend for both chart (to distinguish between user and message colors -- the colors come from colors.js under Model/).
+// TODO: Implement cumulative lines for chart.  May want to skip this, I think this would require additional scales, and would be redundant
+// since the bubble chart shows the same thing.
+
 class DetailGraph extends Colleague {
     constructor(svg, layout, dataset, mediator) {
         super(mediator);

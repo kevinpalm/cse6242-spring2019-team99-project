@@ -1,3 +1,5 @@
+// TODO: Implement pause button.
+
 class PlayOptions {
     constructor(dims, container, mediator) {
         this.dims = dims;
@@ -12,11 +14,13 @@ class PlayOptions {
             .attr("class", "timeOptions");
         let forward = this.createButton(optionsPanel, "Forward");
         forward.on("click", function() {
+            mediator.requestAction("graph", "recomputeCurrentStep");
             mediator.requestAction("timeScale", "stepForward");
             mediator.requestAction("graph", "refresh", "stepForward");
         });
         let back = this.createButton(optionsPanel, "Back");
         back.on("click", function() {
+            mediator.requestAction("graph", "recomputeCurrentStep");
             mediator.requestAction("timeScale", "stepBackward");
             mediator.requestAction("graph", "refresh", "stepBackward");
         })

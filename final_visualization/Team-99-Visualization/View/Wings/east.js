@@ -1,3 +1,5 @@
+// TODO: Implement a help button that displays a popup with an explanation for the chart.
+
 class East {
     constructor(layout, container, mediator) {
         this.layout = layout;
