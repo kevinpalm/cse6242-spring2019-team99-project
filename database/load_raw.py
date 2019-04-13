@@ -4,6 +4,7 @@ from os import listdir
 from sys import argv
 from preprocess_text import build_lemma_table
 from build_vocab import build_vocab
+from build_topics import load_topics
 
 
 def main():
@@ -60,6 +61,9 @@ def main():
 
 		# build vocabulary
 		build_vocab(conn)
+
+		# build topics
+		load_topics(conn)
 
 		print('...database loaded!')
 

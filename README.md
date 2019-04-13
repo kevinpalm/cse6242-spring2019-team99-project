@@ -30,3 +30,14 @@
 * **word_id**: unique index
 * **word**: the word text
 * **freq**: the frequency that the word appears in our dataset
+
+### topic_keywords
+* **topic_id**: unique index
+* **word**: the word text
+* **prob**: the probability that the word appears the topic
+
+### topic_labels
+* **chat_id**: the chat unique index
+* **topic_id**: the highest probability topic_id
+* **prob**: the probability that the string is in the topic
+
