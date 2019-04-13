@@ -4,6 +4,12 @@ import pandas as pd
 import sqlite3
 import spacy
 
+"""
+Much of our preprocessing pipeline comes from following this excellent
+tutorial: https://www.machinelearningplus.com/nlp/topic-modeling-gensim-python/
+"""
+
+
 def lemmatization(tokens, nlp, allowed_postags=['NOUN', 'ADJ', 'VERB', 'ADV']):
     """https://spacy.io/api/annotation"""
 

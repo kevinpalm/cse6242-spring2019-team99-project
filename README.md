@@ -41,3 +41,6 @@
 * **topic_id**: the highest probability topic_id
 * **prob**: the probability that the string is in the topic
 
+## Acknowledgements
+
+[This tutorial](https://www.machinelearningplus.com/nlp/topic-modeling-gensim-python/) was heavily influential on our preprocessing pipeline and LDA modeling work.
