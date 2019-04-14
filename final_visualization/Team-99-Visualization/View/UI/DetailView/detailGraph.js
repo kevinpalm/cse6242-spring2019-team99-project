@@ -44,14 +44,14 @@ class DetailGraph extends Colleague {
         let scale = d3.scaleLinear().domain([0, this.selectMessageGrowth()]).range([this.layout.detailBottomY - this.layout.detailPadding, 0]);
         let leftAxis = d3.axisLeft(scale);
         this.createAxis("leftAxis", leftAxis, this.layout.detailLeftX, this.layout.detailPadding);
-        this.createLeftLabel()
+        this.createLeftLabel(topicNum);
     }
 
     rightAxis(topicNum) {
         let scale = d3.scaleLinear().domain([0, this.selectUserGrowth()]).range([this.layout.detailBottomY - this.layout.detailPadding, 0]);
         let rightAxis = d3.axisRight(scale);
         this.createAxis("rightAxis", rightAxis, this.layout.detailRightX, this.layout.detailPadding);
-        this.createRightLabel();
+        this.createRightLabel(topicNum);
     }
 
     bottomAxis(topicNum) {
@@ -70,29 +70,43 @@ class DetailGraph extends Colleague {
     }
 
 
-    createLeftLabel() {
+    createLeftLabel(topicNum) {
 		let xTranslate = (this.layout.detailCanvasWidth - this.width) / 6;
-		let yTranslate = this.layout.detailBottomY / 2;
-		let axisLabel = this.svg.append("text")
-			.attr("transform", "rotate(-90)")
-			.attr("x", -yTranslate)
-			.attr("y", xTranslate)
-            .style("text-anchor", "middle")
-            .attr("class", "detailLabel")
-			.text("Messages");
-		return axisLabel;
+        let yTranslate = 10 * this.layout.detailCanvasHeight / 10 - 5;
+        let axisGroup = this.svg.append("g")
+            .attr("class", "detailLabel");
+        let legend = axisGroup.append("rect")
+            .attr("x", 0)
+            .attr("y", -15)
+            .attr("width", 20)
+            .attr("height", 20)
+            .attr("fill", this.mediator.requestAction("colors", "getMessageColor", topicNum));
+		let axisLabel = axisGroup.append("text")
+			.attr("x", 25)
+			.attr("y", 0)
+            .style("text-anchor", "start")
+            .text("Messages");
+        axisGroup.attr("transform", "translate(" + xTranslate + ", " + yTranslate + ") rotate(-90)");
+		return axisGroup;
     }
     
-    createRightLabel() {
+    createRightLabel(topicNum) {
 		let xTranslate = this.layout.detailCanvasWidth - (this.layout.detailCanvasWidth - this.width) / 6;
-		let yTranslate = this.layout.detailBottomY / 2;
-		let axisLabel = this.svg.append("text")
-			.attr("transform", "rotate(90)")
-			.attr("x", yTranslate)
-			.attr("y", -xTranslate)
-            .style("text-anchor", "middle")
-            .attr("class", "detailLabel")
-			.text("Users");
+		let yTranslate = 10 * this.layout.detailCanvasHeight / 10 - 25;
+		let axisGroup = this.svg.append("g")
+            .attr("class", "detailLabel");
+        let legend = axisGroup.append("rect")
+            .attr("x", 0)
+            .attr("y", -15)
+            .attr("width", 20)
+            .attr("height", 20)
+            .attr("fill", this.mediator.requestAction("colors", "getUserColor", topicNum));
+		let axisLabel = axisGroup.append("text")
+			.attr("x", -5)
+			.attr("y", 0)
+            .style("text-anchor", "end")
+            .text("Users");
+        axisGroup.attr("transform", "translate(" + xTranslate + ", " + yTranslate + ") rotate(90)")
 		return axisLabel;
 	}
 

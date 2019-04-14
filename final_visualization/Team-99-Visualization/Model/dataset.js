@@ -9,7 +9,7 @@ class Dataset extends Colleague {
 		super(mediator);
 		this.register("dataset");
 		this.data = new Data(promisedData);
-		this.topics = new Topics(this.mediator, this.data.coreData);
+		this.topics = new Topics(this.mediator, this.data.topicData);
 		this.dictionary = new Dictionary(this.data.coreData);
 		this.stats = new Statistics(this.data.statsData);
 		this.colors = new Colors(this.topics, this.mediator);

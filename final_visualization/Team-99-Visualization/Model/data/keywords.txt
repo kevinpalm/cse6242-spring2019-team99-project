@@ -1,0 +1,11 @@
+	Chat_Topic	Keywords
+0	0	freecodecamp, com, wiki, bonfire, github, code, js, link, challenge, gitter
+1	1	class, css, div, text, bootstrap, image, button, html, color, background
+2	2	function, api, datum, var, json, console, get, call, url, log
+3	3	codepen, thank, pen, work, page, full, not, look, help, try
+4	4	file, be, freecodecamp, gitter, blob, png, app, com, chinese, js
+5	5	que, xd, el, para, pero, por, como, los, esta, eso
+6	6	return, var, function, arr, str, array, length, string, num, code
+7	7	www, com, freecodecamp, sparkle, point, send, brownie, thumbsup, star, cookie
+8	8	not, be, do, get, work, think, go, look, good, make
+9	9	room, free, fcc, chat, com, python, code, group, camper, facebook

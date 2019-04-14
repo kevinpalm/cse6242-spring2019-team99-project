@@ -20,7 +20,7 @@ def deduplicate(index):
 
 # End Citation
 
-data = pd.read_csv("../../../../model_development/final_dominant_topic_text_df.txt", sep="\t")
+data = pd.read_csv("../../../../model_development/final_dominant_topic_text_df_FULL.txt", sep="\t")
 data = data.dropna()
 
 # for total aggregates
@@ -39,6 +39,9 @@ end = end.replace(day = end.day + 1)
 def getIndex(i):
     return data.index.astype(str)[i].split("+")[0].split(".")[0]
 
+def getIndexKeywords(i, df):
+    return df.index.astype(str)[i].split("+")[0].split(".")[0]
+
 def getRow(i):
     # Indexing by timestamp shouldn't be so difficult....
     return data[getIndex(i)]
@@ -50,8 +53,12 @@ df_dict = {topic: pd.DataFrame() for topic in topics}
 
 first_row = getRow(0)
 
+keywords = []
+
 for key in df_dict.keys():
     df_dict[key] = data[:][data.Chat_Topic == key]
+    keyword = df_dict[key][getIndexKeywords(0, df_dict[key])]
+    keywords.append(keyword["Keywords"][0])
     # The numbers are going to be off by one on some figures
     # In order to get the dates to line up for resampling
     # I had to insert the start date of the earliest message in the dataset
@@ -63,6 +70,11 @@ for key in df_dict.keys():
     index = pd.to_datetime(df_dict[key]["sent_at"]).rename("id")
     df_dict[key].index = index
     df_dict[key].sort_index()
+
+keywords_df = pd.DataFrame({"Chat_Topic": topics, "Keywords": keywords})
+keywords_df.index = topics
+keywords_df = keywords_df.sort_index()
+keywords_df.to_csv("keywords.txt", "\t")
 
 
 dfs_ts = [] # all timestep dataframes

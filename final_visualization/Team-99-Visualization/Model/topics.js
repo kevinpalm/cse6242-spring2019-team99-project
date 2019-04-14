@@ -13,18 +13,12 @@ class Topics extends Colleague {
 			console.log(this.topicNames);
 			this.activeTopics = this.initTopics();
 			this.inactiveTopics = [];
-			this.topicDictionary = this.dataset.reduce(function(result, d) { 
-			if(result["message_id"]) {
-				result = {};
-			}
-				result[d.Chat_Topic] = d.Keywords;
-				return result;
-			});
+			this.topicDictionary = this.dataset;
 		}
 		
 		getWords(topic) {
-			topic = topic + ".0"
-			return this.topicDictionary[topic];
+			topic = topic;
+			return this.topicDictionary[topic]["Keywords"];
 		}
 
 		initTopics() {

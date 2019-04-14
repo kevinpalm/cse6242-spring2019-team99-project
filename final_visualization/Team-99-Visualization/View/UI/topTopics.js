@@ -29,7 +29,7 @@ class TopTopics extends Colleague {
         for(let i = 0; i < 3; i++) {
             let topic = this.topicsPanel.append("div").attr("class", "topicRow");
             let words = topic.append("div").attr("class", "topicWords").html(this.topThreeWords(i));
-            let topicName = topic.append("div").attr("class", "topicName").html(parseFloat(this.topicData[i]["Topic_Num"]));
+            let topicName = topic.append("div").attr("class", "topicName").html(parseFloat(this.topicData[i]["Chat_Topic"]));
             topicName.style("background-color", this.mediator.requestAction("colors", "getColor", i));
             let stat = topic.append("div").attr("class", "topicStat").html(this.dataset.getTopicMessages(i));
             topics.push(topic);
@@ -44,7 +44,7 @@ class TopTopics extends Colleague {
             this.visibleTopics.pop();
             let topic = this.topicsPanel.append("div").attr("class", "topicRow");
             let words = topic.append("div").attr("class", "topicWords").html(this.topThreeWords(topicNum));
-            let topicName = topic.append("div").attr("class", "topicName").html(parseFloat(this.topicData[topicNum]["Topic_Num"]));
+            let topicName = topic.append("div").attr("class", "topicName").html(parseFloat(this.topicData[topicNum]["Chat_Topic"]));
             let stat = topic.append("div").attr("class", "topicStat").html(this.dataset.getTopicMessages(topicNum));
             let hsl = this.mediator.requestAction("colors", "getColor", topicNum);
             topicName.style("background-color", hsl);
