@@ -15,6 +15,7 @@ class DetailGraph extends Colleague {
         this.graph = this.svg.append("g").attr("class", "detailGroup");
         this.currentChoice = "messages_";
         this.currentTopic = 0;
+        this.absolute = true;
         this.requestTopic(0);
         this.setBothChart();
     }
@@ -30,25 +31,35 @@ class DetailGraph extends Colleague {
         this.requestTopic(this.currentTopic);
     }
 
-    selectMessageGrowth() {
-        let bundle = this.mediator.requestAction("dataset", "getBundle");
-        return bundle.maxMG;
+    setAbsolute(absolut) {
+        this.absolute = absolut;
     }
 
-    selectUserGrowth() {
-        let bundle = this.mediator.requestAction("dataset", "getBundle");
-        return bundle.maxUG;
+    selectMessageGrowth(topicNum) {
+        if(this.absolute) {
+            let bundle = this.mediator.requestAction("dataset", "getBundle");
+            return bundle.maxMG;
+        }
+        return this.mediator.requestAction("dataset", "getMaxMessages", topicNum);
+    }
+
+    selectUserGrowth(topicNum) {
+        if(this.absolute) {
+            let bundle = this.mediator.requestAction("dataset", "getBundle");
+            return bundle.maxUG;
+        }
+        return this.mediator.requestAction("dataset", "getMaxUsers", topicNum);
     }
 
     leftAxis(topicNum) {
-        let scale = d3.scaleLinear().domain([0, this.selectMessageGrowth()]).range([this.layout.detailBottomY - this.layout.detailPadding, 0]);
+        let scale = d3.scaleLinear().domain([0, this.selectMessageGrowth(topicNum)]).range([this.layout.detailBottomY - this.layout.detailPadding, 0]);
         let leftAxis = d3.axisLeft(scale);
         this.createAxis("leftAxis", leftAxis, this.layout.detailLeftX, this.layout.detailPadding);
         this.createLeftLabel(topicNum);
     }
 
     rightAxis(topicNum) {
-        let scale = d3.scaleLinear().domain([0, this.selectUserGrowth()]).range([this.layout.detailBottomY - this.layout.detailPadding, 0]);
+        let scale = d3.scaleLinear().domain([0, this.selectUserGrowth(topicNum)]).range([this.layout.detailBottomY - this.layout.detailPadding, 0]);
         let rightAxis = d3.axisRight(scale);
         this.createAxis("rightAxis", rightAxis, this.layout.detailRightX, this.layout.detailPadding);
         this.createRightLabel(topicNum);
@@ -138,9 +149,9 @@ class DetailGraph extends Colleague {
         result.width = this.width;
         result.barWidth = result.width / result.len;
         if(choice == "users_") {
-            result.max = result.bundle.maxUG;
+            result.max = this.absolute ? result.bundle.maxUG : this.selectUserGrowth(topicNum);
         } else if(choice == "messages_") {
-            result.max = result.bundle.maxMG;
+            result.max = this.absolute ? result.bundle.maxMG : this.selectMessageGrowth(topicNum);
         } else {
             result.colM = "messages_" + topicNum;
             result.colU = "users_" + topicNum;
@@ -198,8 +209,10 @@ class DetailGraph extends Colleague {
 
     chartDouble(topicNum, chartInfo) {
         let h = this.layout.detailBottomY;
-        let scaleM = d3.scaleLinear().domain([0, chartInfo.bundle.maxMG]).range([0, h]);
-        let scaleU = d3.scaleLinear().domain([0, chartInfo.bundle.maxUG]).range([0, h]);
+        let maxUG = this.absolute ? chartInfo.bundle.maxMG : this.selectMessageGrowth(topicNum);
+        let maxMG = this.absolute ? chartInfo.bundle.maxUG : this.selectUserGrowth(topicNum);
+        let scaleM = d3.scaleLinear().domain([0, maxUG]).range([0, h]);
+        let scaleU = d3.scaleLinear().domain([0, maxMG]).range([0, h]);
         let leftOffset = this.layout.detailLeftX;
         this.svg.selectAll(".bars").remove();
         let twoBar = this.svg.selectAll(".bars").data(chartInfo.bundle.data).enter().append("g");

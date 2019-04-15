@@ -13,6 +13,7 @@ class Dataset extends Colleague {
 		this.dictionary = new Dictionary(this.data.coreData);
 		this.stats = new Statistics(this.data.statsData);
 		this.colors = new Colors(this.topics, this.mediator);
+		this.currentTopic = 0;
 		this.weekBundle = {
 			data: this.data.weekData,
 			maxU: this.stats.maxWeekUGCm,
@@ -85,6 +86,25 @@ class Dataset extends Colleague {
 
 	getHelp() {
 		return this.data.help["Text"];
+	}
+
+	setTopic(topic) {
+		this.currentTopic = topic;
+	}
+
+	getCurrentTopic() {
+		return this.currentTopic;
+	}
+	
+	getMaxUsers(topic) {
+		let result =  d3.max(this.bundle[this.currentBundle].data, function(d) {
+			return parseFloat(d["users_" + topic]); });
+		return result
+	}
+
+	getMaxMessages(topic) {
+		return d3.max(this.bundle[this.currentBundle].data, function(d) { 
+			return parseFloat(d["messages_" + topic]); });
 	}
 }
 

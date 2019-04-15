@@ -268,6 +268,7 @@ class TopicRequest {
 		this.mediator.requestAction("topTopics", "setTopic", this.topic);
 		this.mediator.requestAction("detailGraph", "requestTopic", this.topic);
 		this.mediator.requestAction("graph", "setTopic", this.topic);
+		this.mediator.requestAction("dataset", "setTopic", this.topic);
 	}
 }
 

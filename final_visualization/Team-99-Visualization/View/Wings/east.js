@@ -8,10 +8,12 @@ class East {
         this.mediator = mediator;
         this.panel = this.initPanel();
         this.buttonList = [];
+        this.scaleList = [];
         this.optionsPanel = this.createOptionsPanel();
-        //this.scalingPanel = this.createScalingPanel();
+        this.scalingPanel = this.createScalingPanel();
         this.helpPanel = this.createHelpPanel();
         this.colorButtons(2);
+        this.colorScaleButtons(0);
     }
 
     createHelpPanel() {
@@ -27,7 +29,23 @@ class East {
 
     createScalingPanel() {
         let scalingPanel = this.panel.append("div")
-            .attr("class", "scalingOptions");
+            .attr("class", "chartOptions");
+        let absoluteButton = this.createButton(scalingPanel, "Absolute Scale", this.absolute);
+        let relativeButton = this.createButton(scalingPanel, "Relative Scale", this.relative);
+        this.scaleList = [absoluteButton, relativeButton];
+        return scalingPanel;
+    }
+
+    absolute() {
+        this.mediator.requestAction("detailGraph", "setAbsolute", true);
+        this.mediator.requestAction("detailGraph", "refresh");
+        this.colorScaleButtons(0);
+    }
+
+    relative() {
+        this.mediator.requestAction("detailGraph", "setAbsolute", false);
+        this.mediator.requestAction("detailGraph", "refresh");
+        this.colorScaleButtons(1);
     }
 
     initPanel() {
@@ -65,6 +83,17 @@ class East {
             }
             else {
                 this.buttonList[i].attr("class", "myButton");
+            }
+        }
+    }
+
+    colorScaleButtons(selected) {
+        for(let i = 0; i < 2; i++) {
+            if(i == selected) {
+                this.scaleList[i].attr("class", "myButtonActive");
+            }
+            else {
+                this.scaleList[i].attr("class", "myButton");
             }
         }
     }
