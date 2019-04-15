@@ -79,19 +79,19 @@ class Axis extends Colleague {
 		let axisLabel = this.svg.append("text")
 			.attr("transform", "translate(" + xTranslate + ", " + yTranslate + ")")
 			.style("text-anchor", "middle")
-			.text("Number of Messages");
+			.text("Number of Messages (Cumulative)");
 		return axisLabel;
 	}
 
 	createYLabel() {
-		let xTranslate = - (this.layout.canvasWidth - this.layout.graphWidth) / 2.5;
+		let xTranslate = - (this.layout.canvasWidth - this.layout.graphWidth) / 2.25;
 		let yTranslate = this.layout.graphHeight / 2;
 		let axisLabel = this.svg.append("text")
 			.attr("transform", "rotate(-90)")
 			.attr("x", -yTranslate)
 			.attr("y", xTranslate)
 			.style("text-anchor", "middle")
-			.text("Number of Users");
+			.text("Number of Users (Cumulative)");
 		return axisLabel;
 	}
 

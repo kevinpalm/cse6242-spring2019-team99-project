@@ -20,7 +20,7 @@ class Dataset extends Colleague {
 			maxUG: this.stats.maxWeekUG,
 			maxMG: this.stats.maxWeekMG,
 			timeType: "W",
-			timeStep: 2,
+			timeStep: 4,
 			len: this.data.weekData.length,
 			start: this.data.weekData[0]["id"],
 			end: this.data.weekData[this.data.weekData.length - 1]["id"]
@@ -82,6 +82,10 @@ class Dataset extends Colleague {
 	getBundle() {
 		return this.bundle[this.currentBundle];
 	}
+
+	getHelp() {
+		return this.data.help["Text"];
+	}
 }
 
 
@@ -94,6 +98,8 @@ class Data {
 		this.statsData = promisedData[4];
 		this.coreData = promisedData[5];
 		this.topicData = promisedData[6];
+		this.help = promisedData[7];
+		console.log(this.help, 10000000000000000);
 	}
 }
 

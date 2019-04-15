@@ -44,11 +44,11 @@ class LayoutDimensions {
 		this.detailCanvasHeight = this.detailGraphHeight + this.padding.bottom;
 		this.detailCanvasWidth = this.detailGraphWidth;
 
-		this.detailLeftX = this.padding.left;
-		this.detailRightX = this.detailGraphWidth - this.padding.right;
+		this.detailLeftX = this.padding.left * 1.5;
+		this.detailRightX = this.detailGraphWidth - this.padding.right * 1.5;
 
 		this.detailBottomY = this.detailGraphHeight - this.padding.bottom + this.detailPadding;
-		this.detailBottomWidth = this.detailGraphWidth - 2 * this.padding.left;
+		this.detailBottomWidth = this.detailGraphWidth - 3 * this.padding.left;
 
 		let remainingHeight = this.outerHeight - this.height + this.padding.top;
 		this.headerHeight = remainingHeight * 0.33;

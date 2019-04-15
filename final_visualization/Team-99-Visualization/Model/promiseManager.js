@@ -7,6 +7,7 @@ class PromiseManager {
 		let stats = d3.tsv("./Model/data/stats.txt");
 		let dataset = d3.tsv("./Model/data/final_dominant_topic_text_df.txt");
 		let topics = d3.tsv("./Model/data/keywords.txt");
+		let help = d3.json("./Model/data/help.txt");
 		Promise.all([
 			week,
 			fortnight,
@@ -14,7 +15,8 @@ class PromiseManager {
 			quarter,
 			stats,
 			dataset,
-			topics
+			topics,
+			help
 		]).then(function (data) { 
 			myFunc(data);
 		});

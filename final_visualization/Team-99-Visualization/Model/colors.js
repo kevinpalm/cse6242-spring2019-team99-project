@@ -14,11 +14,11 @@ class Colors extends Colleague {
         this.hue2 = 330;
         this.minSat = 80;
         this.maxSat = 100;
-        this.minLit = 40;
-        this.maxLit = 70;
+        this.minLit = 35;
+        this.maxLit = 60;
         this.satRange = this.maxSat - this.minSat;
         this.litRange = this.maxLit - this.minLit;
-        this.contrast = 7;
+        this.contrast = 8;
         this.colorDict = {};
         this.computeColors();
     }

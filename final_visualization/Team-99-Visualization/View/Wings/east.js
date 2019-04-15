@@ -1,4 +1,5 @@
 // TODO: Implement a help button that displays a popup with an explanation for the chart.
+// Todo: Implement a scaling panel.
 
 class East {
     constructor(layout, container, mediator) {
@@ -8,7 +9,25 @@ class East {
         this.panel = this.initPanel();
         this.buttonList = [];
         this.optionsPanel = this.createOptionsPanel();
+        //this.scalingPanel = this.createScalingPanel();
+        this.helpPanel = this.createHelpPanel();
         this.colorButtons(2);
+    }
+
+    createHelpPanel() {
+        let helpPanel = this.panel.append("div")
+            .attr("class", "helpPanel");
+        let helpButton = this.createButton(helpPanel, "Help", this.help)
+        return helpPanel;
+    }
+
+    help() {
+        alert(this.mediator.requestAction("dataset", "getHelp"));
+    }
+
+    createScalingPanel() {
+        let scalingPanel = this.panel.append("div")
+            .attr("class", "scalingOptions");
     }
 
     initPanel() {
@@ -28,6 +47,7 @@ class East {
         .style("display", "flex")
         .style("align-items", "center")
         .style("justify-content", "center")
+        .style("margin-bottom", "8px")
     .append("text")
         .style("color", "white")
         .text("View Options");

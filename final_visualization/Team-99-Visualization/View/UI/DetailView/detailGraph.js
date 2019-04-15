@@ -72,7 +72,7 @@ class DetailGraph extends Colleague {
 
     createLeftLabel(topicNum) {
 		let xTranslate = (this.layout.detailCanvasWidth - this.width) / 6;
-        let yTranslate = 10 * this.layout.detailCanvasHeight / 10 - 5;
+        let yTranslate = 10 * this.layout.detailCanvasHeight / 10 - 10;
         let axisGroup = this.svg.append("g")
             .attr("class", "detailLabel");
         let legend = axisGroup.append("rect")
@@ -92,7 +92,7 @@ class DetailGraph extends Colleague {
     
     createRightLabel(topicNum) {
 		let xTranslate = this.layout.detailCanvasWidth - (this.layout.detailCanvasWidth - this.width) / 6;
-		let yTranslate = 10 * this.layout.detailCanvasHeight / 10 - 25;
+		let yTranslate = 10 * this.layout.detailCanvasHeight / 10 - 30;
 		let axisGroup = this.svg.append("g")
             .attr("class", "detailLabel");
         let legend = axisGroup.append("rect")

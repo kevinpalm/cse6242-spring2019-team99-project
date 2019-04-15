@@ -42,6 +42,10 @@ class West {
             let topicDiv = this.listView.append("div")
                 .style("background-color", activeTopics.includes(i) ? this.mediator.requestAction("colors", "getColor", i) : this.getGray(i))
                 .style("text-align", "center")
+                .style("flex-grow", 1)
+                .style("display", "flex")
+                .style("flex-direction", "column")
+                .style("justify-content", "center")
                 .on("mouseover", function() {
                      d3.select(this).style("border-width", "2px");
                      d3.select(this).style("border-color", "black");
