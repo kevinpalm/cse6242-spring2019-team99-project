@@ -141,7 +141,7 @@ body {
 .topicRow {
     width: 100%;
     display: grid;
-    grid-template-columns: 48% 23% 23%;
+    grid-template-columns: 40% 12% 21% 12%;
     grid-column-gap: 3%;
 }
 
@@ -150,7 +150,7 @@ body {
     color: white;
     width: 100%;
     display: grid;
-    grid-template-columns: 48% 23% 23%;
+    grid-template-columns: 40% 12% 21% 12%;
     grid-column-gap: 3%;
 }
 
