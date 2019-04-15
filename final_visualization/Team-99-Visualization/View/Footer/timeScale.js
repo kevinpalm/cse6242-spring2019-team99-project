@@ -75,7 +75,7 @@ class TimeScale extends Colleague {
     }
 
     computeX(step) {
-        console.log(this.bundle.data.length, step)
+        console.log(this.bundle.data.length, step, "Compute X")
         return this.layout.padding.left + this.scale(Date.parse(this.bundle.data[step]["id"]));
     }
 
@@ -100,14 +100,55 @@ class TimeScale extends Colleague {
     }
 
     animate() {
+        this.initCurrentStep();
+        this.initAnimation();
+        this.setFinalStep();
+    }
+
+    initAnimation() {
+        let t = this.constructTransition();
+        this.timeBlock.attr("x", this.computeX(this.currentStep));
+        this.timeBlock.transition(t).attr("x", this.layout.timeScaleWidth + this.layout.padding.left);
+    }
+
+    initCurrentStep() {
         let bundle = this.mediator.requestAction("dataset", "getBundle");
         if(this.currentStep == bundle.data.length - 1) {
 			this.currentStep = 0;
 		}
-        let t = d3.transition().ease(d3.easeLinear).duration(200 * bundle.data.length - 200 * this.currentStep + 200);
-        this.timeBlock.attr("x", this.computeX(this.currentStep));
-        this.timeBlock.transition(t).attr("x", this.layout.timeScaleWidth + this.layout.padding.left);
+    }
+
+    setFinalStep() {
+        let bundle = this.mediator.requestAction("dataset", "getBundle");
         this.currentStep = bundle.data.length - 1;
+    }
+
+    constructTransition() {
+        let bundle = this.mediator.requestAction("dataset", "getBundle");
+        let t = d3.transition().ease(d3.easeLinear).duration(200 * bundle.data.length - 200 * this.currentStep + 200);
+        let mediator = this.mediator;
+        return t;
+    }
+
+    recomputeInterrupt() {
+        let ratio = (this.timeBlock.attr("x") - this.layout.padding.left) / this.layout.timeScaleWidth;
+        this.bundle = this.mediator.requestAction("dataset", "getBundle");
+        this.currentStep = Math.round(this.bundle.data.length * ratio);
+        if(this.currentStep == this.bundle.data.length) {
+            this.currentStep = this.currentStep - 1;
+        }
+        this.scale = d3.scaleTime().domain(d3.extent(this.bundle.data, function(d) { return Date.parse(d.id); })).range([0, this.layout.timeScaleWidth]);
+    }
+
+    reset() {
+        this.timeBlock.interrupt();
+        this.recomputeInterrupt();
+        this.recomputeCurrentStep();
+        console.log(this.bundle.data.length, this.currentStep, "RESET");
+    }
+
+    getTimeStep() {
+        return this.currentStep;
     }
 
     createSvg() {

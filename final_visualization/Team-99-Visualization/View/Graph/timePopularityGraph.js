@@ -131,11 +131,15 @@ class PopularityGraph extends Colleague {
 	}
 
 	recomputeCurrentStep() {
-        let prevData = this.currentData;
-        let ratio = this.currentStep / prevData.length;
-        let bundle = this.mediator.requestAction("dataset", "getBundle");
+      	let prevData = this.currentData;
+      	let ratio = this.currentStep / prevData.length;
+      	let bundle = this.mediator.requestAction("dataset", "getBundle");
 		this.currentStep = Math.round(bundle.data.length * ratio);
-    }
+	}
+
+	interrupt() {
+		d3.selectAll(".bubble").interrupt();
+	}
 
 	draw(data, mode) {
 		if(mode == "play" && this.currentStep == data.length - 1) {
@@ -219,7 +223,7 @@ class PopularityGraph extends Colleague {
 					})
 					.on("click", requestTopicFunc);
 				if(mode == "play" || mode == "stepForward" || mode == "stepBackward") {
-					bubbles
+					this.bubblesRef = bubbles
 					.data(data)
 					.transition(t)
 					.delay(function(d, j) { 
@@ -255,6 +259,11 @@ class PopularityGraph extends Colleague {
 
 	bubbleName(d) {
 		return "bubble_" + d.id.split(" ")[0] + "_topic_" + this.currentTopic.toString();
+	}
+
+	reset() {
+		this.interrupt();
+		this.currentStep = this.mediator.requestAction("timeScale", "getTimeStep");
 	}
 }
 

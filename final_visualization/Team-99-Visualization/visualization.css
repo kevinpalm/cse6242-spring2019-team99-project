@@ -354,3 +354,17 @@ body {
     align-items: center;
     justify-content: flex-end;
 }
+
+.xAxis path {
+    fill: none;
+    stroke: black;
+    stroke-width: 2px;
+    shape-rendering: crispEdges;
+  }
+
+.yAxis path {
+    fill: none;
+    stroke: black;
+    stroke-width: 2px;
+    shape-rendering: crispEdges;
+  }
