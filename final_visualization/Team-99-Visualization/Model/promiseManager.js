@@ -5,7 +5,7 @@ class PromiseManager {
 		let month = d3.tsv("./Model/data/month.txt");
 		let quarter = d3.tsv("./Model/data/quarter.txt");
 		let stats = d3.tsv("./Model/data/stats.txt");
-		let dataset = d3.tsv("./Model/data/final_dominant_topic_text_df.txt");
+		//let dataset = d3.tsv("./Model/data/final_dominant_topic_text_df.txt");
 		let topics = d3.tsv("./Model/data/keywords.txt");
 		let help = d3.json("./Model/data/help.txt");
 		Promise.all([
@@ -14,7 +14,6 @@ class PromiseManager {
 			month,
 			quarter,
 			stats,
-			dataset,
 			topics,
 			help
 		]).then(function (data) { 

@@ -1,5 +1,4 @@
 import { Topics } from "./topics.js";
-import { Dictionary } from "./dictionary.js";
 import { Statistics } from "./statistics.js";
 import { Colors } from "./colors.js";
 import { Colleague } from "../View/colleague.js";
@@ -10,7 +9,6 @@ class Dataset extends Colleague {
 		this.register("dataset");
 		this.data = new Data(promisedData);
 		this.topics = new Topics(this.mediator, this.data.topicData);
-		this.dictionary = new Dictionary(this.data.coreData);
 		this.stats = new Statistics(this.data.statsData);
 		this.colors = new Colors(this.topics, this.mediator);
 		this.currentTopic = 0;
@@ -116,10 +114,8 @@ class Data {
 		this.monthData = promisedData[2];
 		this.quarterData = promisedData[3];
 		this.statsData = promisedData[4];
-		this.coreData = promisedData[5];
-		this.topicData = promisedData[6];
-		this.help = promisedData[7];
-		console.log(this.help, 10000000000000000);
+		this.topicData = promisedData[5];
+		this.help = promisedData[6];
 	}
 }
 
